@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from app1.forms import loginForm
 from app1.models import user
-
+from django.core.mail import send_mail
 
 # Create your views here.
 def login(request):
@@ -46,3 +46,14 @@ def checklogin(usr,pss):
                 err="نام کابری صحیح است اما رمز اشتباه است"
 
     return validate,err
+
+def sendemail(request):
+
+    send_mail(
+        'Subject',
+        'Email message',
+        'aaamir829@gmail.com',
+        ['aaamir829@gmail.com'],
+        fail_silently=False,
+    )
+    return render(request,'app1/mail.html')

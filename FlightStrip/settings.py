@@ -70,7 +70,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'FlightStrip.wsgi.application'
 
-
+# Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'aaamir829'
+EMAIL_HOST_PASSWORD = 'P93737539p1'
+EMAIL_PORT = '8000'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
