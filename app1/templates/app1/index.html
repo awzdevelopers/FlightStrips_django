@@ -1,17 +1,24 @@
 <<<<<<< HEAD
 <!DOCTYPE html>
+
 <html lang="en" dir="ltr">
   <head>
+
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
 
 =======
-</<!DOCTYPE html>
+<!DOCTYPE html>
+{% load static %}
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="./Stylesheet/Style.css">
+
+
+    <link rel="stylesheet" href="{% static 'css/Style.css' %}">
+
+
     <meta charset="utf-8">
     <title>AWZ_-_Developer's</title>
   </head>
@@ -26,14 +33,16 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-          <img src="./image/contact.svg" id="icon" alt="User Icon" />
+          <img src="{% static 'image/contact.svg' %}" id="icon" alt="User Icon" />
         </div>
 
         <!-- Login Form -->
-        <form>
-          <input type="text" id="login" class="fadeIn second" name="login" placeholder="Username">
-          <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-          <input type="submit" class="fadeIn fourth" value="Log In">
+        <form method="POST">
+          {% csrf_token %}
+          {{ frm.as_p }}
+          <!-- <input type="text" id="login" class="fadeIn second" placeholder="Username">
+          <input type="password" id="password" class="fadeIn third" placeholder="password"> -->
+          <input type="submit" class="fadeIn fourth" name="sub1" value="Log In">
         </form>
 
         <!-- Remind Passowrd -->
