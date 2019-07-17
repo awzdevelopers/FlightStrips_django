@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/Style.css' %}">
+    <meta charset="utf-8">
+    <title>AWZ_-_Developer's</title>
+  </head>
+  <body>
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="inactive underlineHover"> Sign In </h2>
+        <h2 class="active">Sign Up </h2>
+        <br>
+        <h2>Flight Striping System</h2><br>
+        <a class="underlineHover">Read the Registration terms</a>
+        <!-- Login Form -->
+        <form method="POST">
+          <input type="text" id="Name-user" class="fadeIn second" placeholder="Name">
+          <input type="text" id="Family-user" class="fadeIn second" placeholder="Family">
+          <input type="text" id="login" class="fadeIn second" placeholder="Username">
+          <input type="password" id="password" class="fadeIn third" placeholder="Password">
+          <input type="text" id="Email-user" class="fadeIn second" placeholder="Email">
+          <input type="text" id="Job-user" class="fadeIn second" placeholder="Job">
+          <input type="text" id="Phone-user" class="fadeIn second" placeholder="Phone Number">
+          <br><br>
+          <input type="submit" class="fadeIn fourth" name="Sign-up" value="Sign UP">
+        </form>
+        <!-- Terms accept -->
+        <div id="formFooter">
+          <a class="underlineHover" href="#">if you sign up that mean you accept the terms </a>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>

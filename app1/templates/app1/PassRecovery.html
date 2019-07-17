@@ -16,25 +16,23 @@
     <div class="wrapper fadeInDown">
       <div id="formContent">
         <!-- Tabs Titles -->
-        <h2 class="active"> Sign In </h2>
+        <h2 class="inactive underlineHover"> Sign In </h2>
         <h2 class="inactive underlineHover">Sign Up </h2>
         <br>
-        <h2>Flight Striping System</h2>
+        <h2>Flight Striping System</h2><br>
+        <a class="underlineHover">Password Recovery</a>
         <!-- Icon -->
-        <div class="fadeIn first">
-          <img src="{% static 'image/contact.svg' %}" id="icon" alt="User Icon" />
+        <div class="fadeIn first img-size">
+          <img src="{% 'image\Icon-Rec.png' %}"/>
         </div>
         <!-- Login Form -->
         <form method="POST">
-          {% csrf_token %}
-          {{ frm.as_p }}
-          <!-- <input type="text" id="login" class="fadeIn second" placeholder="Username">
-          <input type="password" id="password" class="fadeIn third" placeholder="password"> -->
-          <input type="submit" class="fadeIn fourth" name="sub1" value="Log In">
+          <input type="text" id="Email-user" class="fadeIn second" placeholder="Enter your Email"><br><br>
+          <input type="submit" class="fadeIn fourth" name="Recovery" value="Send Recovery Mail">
         </form>
-        <!-- Remind Passowrd -->
+        <!-- Terms accept -->
         <div id="formFooter">
-          <a class="underlineHover" href="#">Forgot Password?</a>
+          <a class="underlineHover" href="#">If there is no email in the inbox, check spam's </a>
         </div>
 
       </div>
