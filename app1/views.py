@@ -47,6 +47,20 @@ def checklogin(usr,pss):
 
     return validate,err
 
+def Register(request):
+    frm2 = RegisterForm
+    err= ""
+    if request.method=='POST' and 'Sign-up' in request.POST:
+        form1= RegisterForm(request.POST)
+        if Frm.is_valid():
+            err="با موفقیت ثبت نام کردید"
+            save(frm2.user)
+        else:
+            err="خطا دوباره امتحان کنید"
+        return render(requst,'app1/main.html',{'message':m})
+
+    
+
 def sendemail(request):
 
     send_mail(
