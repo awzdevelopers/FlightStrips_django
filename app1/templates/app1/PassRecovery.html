@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
-{% load static %}
 <html lang="en" dir="ltr">
   <head>
     <link rel="stylesheet" href="{% static 'css/Style.css' %}">
@@ -23,12 +24,16 @@
         <a class="underlineHover">Password Recovery</a>
         <!-- Icon -->
         <div class="fadeIn first img-size">
-          <img src="{% 'image\Icon-Rec.png' %}"/>
+          <img src="{% static 'image/Icon-Rec.png' %}"/>
         </div>
+        {{ message }}
         <!-- Login Form -->
         <form method="POST">
-          <input type="text" id="Email-user" class="fadeIn second" placeholder="Enter your Email"><br><br>
+         {% csrf_token %}
+         {{ frm.as_p }}
+          <!-- <input type="text" id="Email-user" class="fadeIn second" placeholder="Enter your Email"><br><br> -->
           <input type="submit" class="fadeIn fourth" name="Recovery" value="Send Recovery Mail">
+
         </form>
         <!-- Terms accept -->
         <div id="formFooter">

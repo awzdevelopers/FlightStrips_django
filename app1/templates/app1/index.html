@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
-{% load static %}
 <html lang="en" dir="ltr">
   <head>
     <link rel="stylesheet" href="{% static 'css/Style.css' %}">
@@ -17,7 +18,8 @@
       <div id="formContent">
         <!-- Tabs Titles -->
         <h2 class="active"> Sign In </h2>
-        <h2 class="inactive underlineHover">Sign Up </h2>
+        <h2 class="inactive underlineHover"><a href="{% url 'app1:register' %}">Sign Up</a> </h2>
+        <p>{{ message }}</p>
         <br>
         <h2>Flight Striping System</h2>
         <!-- Icon -->
