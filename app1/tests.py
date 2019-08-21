@@ -2,8 +2,8 @@
 #
 # # Create your tests here.
 # fields=['username','password']
-# widget={'username':forms.TextInput(attrs={'class' : 'fadeIn second','name':'usrname'}),
-#         'password':forms.TextInput(attrs={'class' : 'fadeIn third','name':'passwrd'})
+# widgets={'username':forms.TextInput(attrs={'placeholder':'Enter username'}),
+        # 'password':forms.TextInput(attrs={'placeholder':'Password'})}
 #
 # widget={'username':forms.TextInput(attrs={'class':''})
 # }
@@ -53,6 +53,10 @@
 #                 validate=0
 #                 err="رمز شما اشتباه است"
 #     return validate,err
+# for creating the new record
+q=user(username='ali')
+q.save()
+
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 import random
@@ -232,4 +236,4 @@ EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_HOST_USER='aaamir829'
 EMAIL_HOST_PASSWORD='09368200356@'
-EMAIL_PORT=587    
+EMAIL_PORT=587
