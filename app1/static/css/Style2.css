@@ -6,7 +6,11 @@ body {
   padding: 0;
   background-color: #FFF;
 }
-
+.msg{
+  width: 100px;
+  height:100px;
+  background-color:green;
+}
 .header-up {
   width: 100%;
   height: 50px;
@@ -46,3 +50,42 @@ body {
   margin: 0 auto;;
   padding-top: 50px;
 }
+/* loading */
+
+.first-text{
+  margin: auto;
+  font-size: 2rem;
+  position: absolute;
+  left:45%;
+  top: 5rem;
+  opacity: 0;
+  animation-name: topFadeOut;
+  animation-duration: 3s;
+  color: gray;
+  z-index: 1021;
+}
+
+@keyframes topFadeOut {
+  0% {
+    position: absolute;
+    top: 25%;
+    opacity: 0;
+  }
+
+  50% {
+    position: absolute;
+    top: 25%;
+    opacity: .5;
+  }
+  75% {
+    position: absolute;
+    top: 25%;
+    opacity: 1;
+  }
+
+  100% {
+    top:25%;
+    opacity: 0;
+  }
+}
+/* end of loading */

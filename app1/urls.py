@@ -11,6 +11,10 @@ urlpatterns=[
           path('mail/', views.mail,name='mail'),
           url(r'^register/', views.Register,name='register'),
           path('test/<message>/',views.test,name='test'),
+          path('flightinfo/',views.flightinfo,name='flightinfo'),
+          path('initialinfo/',views.main,name='initialinfo'),
+          path('flightlist/',views.flightlist,name='flightlist'),
+
 
 
 

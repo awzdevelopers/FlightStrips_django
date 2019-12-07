@@ -50,8 +50,8 @@ h2 {
   border-radius: 10px 10px 10px 10px;
   background: #fff;
   padding: 30px;
-  width: 90%;
-  max-width: 450px;
+  width: 100%;
+  max-width: 550px;
   position: relative;
   padding: 0px;
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
@@ -268,8 +268,8 @@ input[type=text]:placeholder,input[type=password],input[type=email]:placeholder 
 * {
   box-sizing: border-box;
 }
-
-#vmsLoadingBack{
+/* last progressbar */
+/* #vmsLoadingBack{
 position:fixed;
 background-color:rgba(0,0,0,0.8);
 top:0px;
@@ -278,7 +278,7 @@ right:0px;
 bottom:0px;
 width:100%;
 height:100%;
-        z-index:1001;
+z-index:1001;
 }
 #vmsLoading {
 position:absolute;
@@ -295,5 +295,98 @@ border-radius:3px;
 direction:rtl;
 font-family:tahoma;
 font-size:13px;
-        z-index:1002;
+z-index:1002;
+-webkit-animation: spin 2s linear 1;
+animation: spin 2s linear 1;
 }
+
+@-webkit-keyframes spin {
+0% { -webkit-transform: rotate(0deg); }
+100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+} */
+/* end of last progressbar */
+
+/* this my progrees bar */
+.myBar{
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  z-index: 1005;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  animation-name: example;
+  animation-duration: 4s;
+}
+#myBar{
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  z-index: 1005;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  animation-name: example;
+  animation-duration: 4s;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+  0%   {background-color:red; left:0px; top:0px;}
+  25%  {background-color:yellow; left:200px; top:0px;}
+  50%  {background-color:blue; left:0px; top:0px;}
+  75%  {background-color:green; left:200px; top:0px;}
+  100% {background-color:rgba(0,0,0,0); left:0px; top:0px;}
+}
+
+/* Standard syntax */
+@keyframes example {
+  0%   {background-color:red; left:0px; top:0px;}
+  25%  {background-color:yellow; left:200px; top:0px;}
+  50%  {background-color:blue; left:0px; top:0px;}
+  75%  {background-color:green; left:200px; top:0px;}
+  100% {background-color:rgba(0,0,0,0); left:0px; top:0px;}
+}
+/* loading */
+
+.first-text{
+  margin: auto;
+  font-size: 2rem;
+  position: absolute;
+  left:45%;
+  top: 5rem;
+  opacity: 0;
+  animation-name: topFadeOut;
+  animation-duration: 3s;
+  color: gray;
+  z-index: 1021;
+}
+
+@keyframes topFadeOut {
+  0% {
+    position: absolute;
+    top: 25%;
+    opacity: 0;
+  }
+
+  50% {
+    position: absolute;
+    top: 25%;
+    opacity: .5;
+  }
+  75% {
+    position: absolute;
+    top: 25%;
+    opacity: 1;
+  }
+
+  100% {
+    top:25%;
+    opacity: 0;
+  }
+}
+/* end of loading */

@@ -1,3 +1,165 @@
+
+    <!--main page start here-->
+<!-- intial information type and company popup pages -->
+<!-- company -->
+    <div id="myDIV" class="popup-co" style="display:none;">
+      <div class="popup-data">
+        <h3> Enter Flight Company name </h3>
+        <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control" id="usr"><br>
+          <button class="btn btn-success">Send</button>
+          <button onclick="Company()" class="btn btn-danger">Close</button>
+        </div>
+      </div>
+    </div>
+<!-- flight type -->
+    <div id="myDIV2" class="popup-co" style="display:none;">
+      <div class="popup-data">
+        <h3> Enter Flight type </h3>
+        <div class="form-group">
+          <label for="usr">Flight type:</label>
+          <input type="text" class="form-control" id="usr"><br>
+          <button class="btn btn-success">Send</button>
+          <button onclick="Cotype()" class="btn btn-danger">Close</button>
+        </div>
+      </div>
+    </div>
+<!--end of  intial information type and company popup pages -->
+<!-- flight forme -->
+<div class="flight-form">
+  <h3 style="text-align:center;">Flight information registeration </h3>
+  <form method="POST">
+    <div class="container">
+      <div class="row">
+          <!--side 1-->
+          <form  method="POST">
+            {% csrf_token %}
+
+          <div class="col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="sel1">Company:</label>
+                <select class="form-control" id="sel1">
+                  {% for c in cmp%}
+                  <option>{{ c.company }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pwd">Flight Number:</label>
+                <!-- <input type="number" class="form-control" id="pwd"> -->
+                {{ frm.flightNum }}
+              </div>
+              <div class="form-group">
+                <label for="pwd">Date From:</label>
+                <!-- <input type="date" class="form-control" id="pwd"> -->
+                <!-- {{ frm.dateFrom }} -->
+              </div>
+              <div class="form-group">
+                <label for="pwd">Date To:</label>
+                <!-- <input type="date" class="form-control" id="pwd"> -->
+                <!-- {{ frm.dateTo }} -->
+
+              </div>
+              <div class="form-group">
+                <label for="pwd">EOBT:</label>
+                <!-- <input type="time" class="form-control" id="pwd"> -->
+                <!-- {{ frm.EOBT }} -->
+
+              </div>
+              <div class="form-group">
+                <label for="pwd">Dep.Airport:</label>
+                {{ frm.DepAirport }}
+
+                <!-- <input type="text" class="form-control" id="pwd"> -->
+              </div>
+              <div class="form-group">
+                <label for="pwd">Des.Airport:</label>
+                {{ frm.DesAirport }}
+
+                <!-- <input type="text" class="form-control" id="pwd"> -->
+              </div>
+
+
+
+              <div class="form-group form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox"> Trusted Flight data
+                </label>
+              </div>
+              <!-- <button type="submit" class="btn btn-primary" name="sbt">Submit</button> -->
+              <!-- <input type="submit" name="sbt" value="Submit" class="btn btn-primary"> -->
+          </div>
+
+          <!-- side 2 -->
+          <div class="col-md-6 col-sm-6">
+            <div class="form-group">
+              <label for="pwd">Level:</label>
+              <!-- <input type="text" class="form-control" id="pwd"> -->
+              {{ frm.level }}
+            </div>
+            <div class="form-group">
+              <label for="sel1">Type:</label>
+              <select class="form-control" id="sel1">
+                {% for t in tp %}
+                <option>{{ t.Type }}</option>
+                 {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Route:</label>
+              <!-- <input type="text" class="form-control" id="pwd"> -->
+              {{ frm.route }}
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Sat
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Sun
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Mon
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Tue
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Wed
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Thu
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="optradio">Fri
+              </label>
+            </div>
+          </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" name="sbt1">Submit</button>
+
+  </form>
+
+</div>
+<!-- end flight form -->
+
+
+
+
+
 # from django.test import TestCase
 #
 # # Create your tests here.
@@ -11,8 +173,10 @@
 # from django.shortcuts import render
 # from app1.forms import loginForm
 # from app1.models import user
-#
-#
+#initialinfo
+# <!-- <button class="dropdown-item" href="{% url 'app1:initialinfo' %}">Flight Company & Type</button> -->
+# <a href="{% url 'app1:initialinfo' %}">Company & Type</a>
+# end initialinfo
 # # Create your views here.
 # def login(request):
 #     frm=loginForm
