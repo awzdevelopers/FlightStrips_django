@@ -39,7 +39,7 @@
           </li>
           <!-- Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'app1:initialinfo' %}" id="navbardrop" data-toggle="dropdown">
               Initial information
             </a>
             <div class="dropdown-menu">
@@ -55,7 +55,7 @@
             <a class="nav-link" href="{% url 'app1:flightlist' %}">Flight List</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app1:login' 'd' %}">Quit</a>
+            <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
           </li>
         </ul>
       </nav>

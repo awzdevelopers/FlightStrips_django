@@ -58,9 +58,9 @@ def checkmailexist(emailaddress):
 def test(request,message):
     return render(request,'app1/test.html',{'msg':message})
 
-def login(request,msg='d'):
+def login(request,msg='default'):
     frm=loginForm
-    if msg=='d':
+    if msg=='default':
         m=""
     else:
         m=msg

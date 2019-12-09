@@ -1,6 +1,6 @@
 from django import forms
 from app1.models import user,flight,companyList,typeList,DaysOfweek
-# from datetimepicker.widgets import DateTimePicker
+from datetimepicker.widgets import DateTimePicker
 from bootstrap_datepicker_plus import DatePickerInput,TimePickerInput
 
 
