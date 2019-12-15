@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
     <!-- code Removed -->
-    <!-- <link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\Style2.css"> -->
+    <!--<link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">-->
     <!--<link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\bootstrap.min.css">
     <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>-->
 
@@ -63,83 +63,38 @@
         </ul>
       </nav>
     </div>
-    <!--<h2>{{ message }}</h2>-->
 
     <!--main page start here-->
-<h3>{{ msg }}</h3>
-<!-- company -->
-    <div id="myDIV" class="popup-co">
-      <div class="popup-data">
-        <h3> Enter Flight Company name </h3>
-        <form method="POST">
-
-        <div class="form-group">
-
-          {% csrf_token %}
-          {{ frmc | bootstrap }}
-
-          <button class="btn btn-success" name='btncompany' type="submit">Send</button>
-          <!-- <button onclick="Company()" class="btn btn-danger">Close</button> -->
+    <div class="container"
+      <div class="wrapper">
+        <div id="formContent">
+          <form method="POST">
+            <p class="help"></p>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <input type="submit" class="btn btn-primary mb-2" value="Submit" name="sbt1" />
+          </form>
         </div>
-      </form>
+  <h3>Edit your flight Data</h3>
+  <br>
+  <br>
+    <h5></h5>
 
+      <!-- using library called bootstrap -->
+          <form method="POST">
+
+          <button type="submit" class="btn btn-primary" name="sbt">Submit</button>
+
+        </form>
       </div>
-    </div>
-<!-- flight type -->
-    <div id="myDIV2" class="popup-co">
-      <div class="popup-data">
+</div>
 
-        <h3> Enter Flight type </h3>
-        <form method="POST">
-
-        <div class="form-group">
-
-          {% csrf_token %}
-          {{ frmt|bootstrap }}
-
-          <button class="btn btn-success" name='btntype' type="submit">Send</button>
-          <!-- <button onclick="Company()" class="btn btn-danger">Close</button> -->
-        </div>
-      </form>
-
-      </div>
-    </div>
-
-
-
-
-
-    <!-- end of main page -->
-    <script>
-    function Company() {
-      var x = document.getElementById("myDIV");
-      var y = document.getElementById("myDIV2");
-      if (y.style.display === "block") {
-        y.style.display = "none";
-      }
-      else {
-          if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
-        }
-      }
-
-    function Cotype() {
-      var x = document.getElementById("myDIV2");
-      var y = document.getElementById("myDIV");
-      if (y.style.display === "block") {
-        y.style.display = "none";
-      }
-      else {
-          if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
-        }
-      }
-    </script>
   </body>
 </html>

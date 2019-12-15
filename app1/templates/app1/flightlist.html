@@ -13,7 +13,9 @@
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- <link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\Style2.css"> -->
+
+  <!--<link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">-->
+
     <!--<link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\bootstrap.min.css">
     <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>-->
 
@@ -60,52 +62,60 @@
                 <a class="nav-link" href="{% url 'app1:flightlist' %}">flight List</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="#">Upload File</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
               </li>
             </ul>
           </nav>
         </div>
-        <form method="POST">
-         {% csrf_token %}
-        <table class="table">
-          <th>CallSign</th>
-          <th>Type</th>
-          <th>Departure</th>
-          <th>Destination</th>
-          <th>EOBT</th>
-          <th>Date</th>
-          <th>Route</th>
-          <th>Register</th>
-          {% for f in flights %}
 
-          <tr>
-            <td>{{ f.company }} {{ f.flightNum }}</td>
-            <td>{{ f.type }}</td>
-            <td>{{ f.DepAirport }}</td>
-            <td>{{ f.DesAirport }}</td>
-            <td>{{ f.EOBT }}</td>
-            <td>{{ f.dateFrom }}</td>
-            <td>{{ f.route }}</td>
-            <td>{{ f.Register }}</td>
+        <!-- list start here -->
+      <div class="container">
+        <div>
+          <form method="POST">
+           {% csrf_token %}
+          <table class="table table-hover">
+            <th>CallSign</th>
+            <th>Type</th>
+            <th>Departure</th>
+            <th>Destination</th>
+            <th>EOBT</th>
+            <th>Date</th>
+            <th>Route</th>
+            <th>Register</th>
+            {% for f in flights %}
+
+            <tr class="flight-list-hover">
+              <td>{{ f.company }} {{ f.flightNum }}</td>
+              <td>{{ f.type }}</td>
+              <td>{{ f.DepAirport }}</td>
+              <td>{{ f.DesAirport }}</td>
+              <td>{{ f.EOBT }}</td>
+              <td>{{ f.dateFrom }}</td>
+              <td>{{ f.route }}</td>
+              <td>{{ f.Register }}</td>
 
 
-            {% if f.change %}
-            <td><a href="#"><img src="{% static 'image/del.png' %}" alt=""></a></td>
-            {% else %}
-            <td>--</td>
-            {% endif %}
-            {% if f.delay %}
-            <td><a href="#"><img src="{% static 'image/add.png' %}" alt=""></a></td>
-            {% else %}
-            <td>--</td>
-            {% endif %}
-            <td><input type="checkbox" name="ch1" value='{ f.id }'>انتخاب ردیف</td>
-          </tr>
+              {% if f.change %}
+              <td><a href="#"><img src="{% static 'image/del.png' %}" alt=""></a></td>
+              {% else %}
+              <td>--</td>
+              {% endif %}
+              {% if f.delay %}
+              <td><a href="#"><img src="{% static 'image/add.png' %}" alt=""></a></td>
+              {% else %}
+              <td>--</td>
+              {% endif %}
+              <td><input type="checkbox" name="ch1" value='{ f.id }'>انتخاب ردیف</td>
+            </tr>
 
-          {% endfor %}
-        </table>
-        <input class="btn-succeed" type="submit" name="btn3" value="Send For Strip">
-      </form>
-
+            {% endfor %}
+          </table>
+          <input class="btn btn-success" type="submit" name="btn3" value="Send For Strip">
+        </form>
+      </div>
+    </div>
   </body>
 </html>
