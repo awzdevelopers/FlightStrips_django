@@ -58,6 +58,9 @@
             <a class="nav-link" href="#">Upload File</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
           </li>
         </ul>
@@ -66,10 +69,11 @@
 
     <!--main page start here-->
 <!-- upload script -->
+<form  method="post" enctype="multipart/form-data">
     <div class="file-upload">
       <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Your File</button>
       <div class="image-upload-wrap">
-        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="application/msexcel"/>
+        <input class="file-upload-input" name="excelfile" type='file' onchange="readURL(this);" accept="application/msexcel"/>
         <div class="drag-text">
           <h3>Drag and drop a file or select add your file</h3>
         </div>
@@ -80,8 +84,37 @@
           <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
         </div>
       </div>
-    </div>
+      {% csrf_token %}
 
+      <button type="submit" class="btn btn-primary mb-2" name="btn4">Show & Save</button>
+    </div>
+    <!-- <button type="submit" class="btn btn-warning mb-2" name="btn5">Save in DataBase</button> -->
+  </form>
+<table class="table">
+  <tr>
+  <th>Company</th>
+  <th>Flight Number</th>
+  <th>EOBT</th>
+  <th>Level</th>
+  <th>Des. Airport</th>
+  <th>Route</th>
+  <th>Date</th>
+</tr>
+  {% for i in excel_data %}
+  <tr>
+  {% for j in i %}
+<td>
+  {{ j }}
+</td>
+  {% endfor %}
+  <td><a href="#"><img src="{% static 'image/delete.png' %}" alt=""></a></td>
+  <td><a href="#"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
+  <td><a href="#"><img src="{% static 'image/print.png' %}" alt=""></a></td>
+  <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
+  <td><input type="checkbox" name="ch1" value='{ f.id }'>{{ fi.d }}</td>
+</tr>
+  {% endfor %}
+</table>
 <!-- upload script for drag and drop -->
 <script>
   function readURL(input) {

@@ -14,6 +14,14 @@ urlpatterns=[
           path('flightinfo/',views.flightinfo,name='flightinfo'),
           path('initialinfo/',views.main,name='initialinfo'),
           path('flightlist/',views.flightlist,name='flightlist'),
+          path('uploadexcel/',views.uploadexcel,name='uploadexcel'),
+          # path('deleteflight/', views.deleteflight, name='deleteflight'),
+          path('flightUpdate/<int:id>/',views.flightUpdate,name='flightUpdate'),
+          path('printStrip/',views.printStrip,name='printStrip'),
+          path('getflightlist/',views.getflightlist,name='getflightlist'),
+
+
+
 
 
 

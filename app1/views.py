@@ -5,6 +5,9 @@ from django.shortcuts import redirect
 from django.core.mail import send_mail
 import random
 import datetime
+import openpyxl
+import requests
+from bs4 import BeautifulSoup
 
 
 # Create your views here.
@@ -15,7 +18,6 @@ def mail(request):
         pssfrm=PassForm(request.POST)
         if pssfrm.is_valid():
             email=pssfrm.cleaned_data['email']
-
             m=checkmailexist(email)
             if m==1:
                 result=sendpass(email)
@@ -24,7 +26,67 @@ def mail(request):
                 return render(request,'app1/PassRecovery.html',{'frm':pssfrm,'message':"ایمیل مورد نظر وجود ندارد"})
 
     return render(request,'app1/passRecovery.html',{'frm':pssfrm})
+def flightUpdate(request, id):
+    try:
+        flt = flight.objects.get(pk=id)
+    except flight.DoesNotExist:
+        raise Http404("flights does not exist")
+    return render(request, 'app1/details.html', {'flt': flt})
 
+def uploadexcel(request):
+    excel_data=""
+    # if request.method=='POST' and 'btn5' in request.POST:
+    #     for row in excel_data:
+    #         for cell in row:
+    #             flight.objects.create(company=row_data[row][0],
+    #                               flightNum=row_data[row][1],
+    #                               EOBT=row_data[row][2],
+    #                               level=row_data[row][3],
+    #                               DesAirport=row_data[row][4],
+    #                               route=row_data[row][5],
+    #                               dateFrom=row_data[row][6])
+
+    if request.method=='POST' and 'btn4' in request.POST:
+        excel_file = request.FILES["excelfile"]
+        print(excel_file)
+
+        wb = openpyxl.load_workbook(excel_file)
+
+        worksheet = wb["Sheet1"]
+        # print(worksheet["A5"].value)
+        print(worksheet)
+
+
+        excel_data = list()
+        for row in worksheet.iter_rows():
+            row_data = list()
+            for cell in row:
+                print(type(cell.value))
+                row_data.append(str(cell.value))
+
+            print(row_data[2])
+            print(row_data[6])
+            flight.objects.create(company=row_data[0],
+                                  flightNum=row_data[1],
+                                  EOBT=row_data[2],
+                                  level=row_data[3],
+                                  DesAirport=row_data[4],
+                                  route=row_data[5],
+                                  dateFrom=row_data[6])
+                # b.save()
+            excel_data.append(row_data)
+        # for r in excel_data:
+        #     for j in r:
+        #         company=str(j.value)
+        #         flightNum=str(j.value),
+        #                               EOBT=datetime.time(14,5,00),
+        #                               level=str(j.value),
+        #                               DesAirport=str(j.value),
+        #                               route=str(j.value),
+        #                               dateFrom=datetime.datetime(2015,5,12))
+        # print(excel_data[0][0])
+
+    return render(request,'app1/upload.html',{"excel_data":excel_data})
 def sendpass(emailaddress):
     try:
         newpass=random.randint(456789,987654)
@@ -42,7 +104,9 @@ def sendpass(emailaddress):
     return result
 
 
-
+def printStrip(request):
+    flt=flight.objects.all()
+    return render(request, 'app1/printStrip.html',{'flt':flt})
 
 
 def checkmailexist(emailaddress):
@@ -243,6 +307,8 @@ def main(request):
     frmc=CompanyForm
     frmt=TypeForm
     msg=""
+    cy=""
+    tp=""
 
     if request.method=='POST' and 'btncompany' in request.POST:
         frmc=CompanyForm(request.POST)
@@ -254,13 +320,26 @@ def main(request):
         if frmt.is_valid():
             frmt.save(commit=True)
             msg="با موفقیت انجام شد"
+    cy=companyList.objects.all()
+    tp=typeList.objects.all()
+    return render(request,'app1/main.html',{'frmc':frmc,'frmt':frmt,'msg':msg,'cy':cy,'tp':tp})
+def getflightlist(request):
+    URL="https://www.digikala.com/product/dkp-1582966/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%87%D9%88%D8%A2%D9%88%DB%8C-%D9%85%D8%AF%D9%84-p30-lite-mar-lx1m-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA?variant_id=4272884"
+    headers={"agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'}
+    page=requests.get(URL,headers=headers)
+    soup=BeautifulSoup(page.content,'html.parser')
+    # flights=soup.prettify()
+    # findAll("div", {"class": "stylelistrow"})
+    flights=soup.find("div",{"class":"c-product__seller-price-raw js-price-value"}).get_text()
+    print(flights)
+    return render(request,'app1/getflightlist.html',{'flights':flights})
 
-    return render(request,'app1/main.html',{'frmc':frmc,'frmt':frmt,'msg':msg})
 def flightlist(request):
     flights=flight.objects.all()
     if request.method=='POST' and 'btn3' in request.POST:
         print("iterating...."+flight.objects.get(company=="ira"))
 
-
+    if request.method=='POST' and 'delbtn' in request.POST:
+        print(str(request.POST.get('delbtn')))
 
     return render(request,'app1/flightlist.html',{'flights':flights})

@@ -60,7 +60,10 @@
             <a class="nav-link" href="{% url 'app1:flightlist' %}">flight List</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Upload File</a>
+            <a class="nav-link" href="{% url 'app1:uploadexcel' %}">Upload File</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>

@@ -34,42 +34,44 @@
     <title>AWZ_-_Developer's</title>
   </head>
   <body>
-
-        <div class="header-up">
-          <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a class="navbar-brand" href="#">||AWZ_Developer's||</a>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'app1:default_login' %}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"></a>
-              </li>
-              <!-- Dropdown -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{% url 'app1:initialinfo' %}" id="navbardrop" data-toggle="dropdown">
-                  Initial information
-                </a>
-                <div class="dropdown-menu">
-                  <a >Company & Type</a>
-                </div>
-              </li>
-              <!--end dropdown -->
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'app1:flightinfo' %}">flight information</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'app1:flightlist' %}">flight List</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Upload File</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+    <div class="header-up">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">||AWZ_Developer's||</a>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:default_login' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <!-- Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'app1:initialinfo' %}" id="navbardrop" data-toggle="dropdown">
+              Initial information
+            </a>
+            <div class="dropdown-menu">
+              <a >Company & Type</a>
+            </div>
+          </li>
+          <!--end dropdown -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:flightinfo' %}">flight information</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:flightlist' %}">flight List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:uploadexcel' %}">Upload File</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
         <!-- list start here -->
       <div class="container">
@@ -98,17 +100,11 @@
               <td>{{ f.Register }}</td>
 
 
-              {% if f.change %}
-              <td><a href="#"><img src="{% static 'image/del.png' %}" alt=""></a></td>
-              {% else %}
-              <td>--</td>
-              {% endif %}
-              {% if f.delay %}
-              <td><a href="#"><img src="{% static 'image/add.png' %}" alt=""></a></td>
-              {% else %}
-              <td>--</td>
-              {% endif %}
-              <td><input type="checkbox" name="ch1" value='{ f.id }'>انتخاب ردیف</td>
+              <td><a href="#"><img src="{% static 'image/delete.png' %}" alt=""></a></td>
+              <td><a href="{% url 'app1:flightUpdate' f.id %}"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
+              <td><a href="{% url 'app1:printStrip'%}"><img src="{% static 'image/print.png' %}" alt=""></a></td>
+              <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
+              <td><input type="checkbox" name="ch1" value='{ f.id }'>{{ fi.d }}</td>
             </tr>
 
             {% endfor %}

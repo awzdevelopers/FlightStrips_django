@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from datetime import date,datetime
 # Create your models here.
 
 
@@ -32,14 +32,14 @@ class flight(models.Model):
     flightNum=models.CharField(max_length=20,null=True)
     type=models.CharField(max_length=10,null=True)
     route=models.CharField(max_length=20,null=True)
-    dateFrom=models.DateField(blank=True,null=True)
-    dateTo=models.DateField(blank=True,null=True)
+    dateFrom=models.DateTimeField(blank=True,null=True)
+    dateTo=models.DateTimeField(blank=True,null=True)
     EOBT=models.TimeField(blank=True,null=True)
     DesAirport=models.CharField(max_length=10,blank=True)
     DepAirport=models.CharField(max_length=10,blank=True)
     daysOfweek=models.CharField(max_length=300,blank=True)
-    delay=models.BooleanField(max_length=5,blank=True,null=True)
-    change=models.BooleanField(max_length=5,blank=True,null=True)
+    delay=models.NullBooleanField(max_length=5,blank=True,null=True)
+    change=models.NullBooleanField(max_length=5,blank=True,null=True)
     register=models.CharField(max_length=10,blank=True)
 
 
