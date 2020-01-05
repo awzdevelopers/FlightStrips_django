@@ -10,6 +10,11 @@ class loginForm(forms.ModelForm):
         model=user
         fields=['username','password']
 
+        widgets = {
+            'password':forms.TextInput(attrs={'class':'datepicker','type':'password'}),
+            }
+
+    # 'EOBT':
 
 
 
