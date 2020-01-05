@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('', views.login),
     url(r'^app1/',include('app1.urls')),
-
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
 ]

@@ -8,6 +8,9 @@ import datetime
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
+import os
+import win32print
+# import cups
 
 
 # Create your views here.
@@ -31,6 +34,9 @@ def flightUpdate(request, id):
         flt = flight.objects.get(pk=id)
     except flight.DoesNotExist:
         raise Http404("flights does not exist")
+    dp=win32print.GetDefaultPrinter()
+    os.startfile("C:\\Users\\amiri\\Documents\\GitHub\\FlightStrips_django1\\app1\\templates\\app1\\printStrip.html","print")
+    # os.startfile(r"C:\Users\amiri\Documents\GitHub\FlightStrips_django1\app1\templates\app1\details.html","print")
     return render(request, 'app1/details.html', {'flt': flt})
 
 def uploadexcel(request):
