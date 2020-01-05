@@ -14,7 +14,7 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-  <!--<link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">-->
+  <link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">
 
     <!--<link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\bootstrap.min.css">
     <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>-->
@@ -72,6 +72,38 @@
         </ul>
       </nav>
     </div>
+
+
+<!--search -->
+
+    <div class="topsearch">
+      <div class="container">
+        <form class="form-inline" action="">
+          <div class="form-group">
+            <label for="datefrom">dateFrom:</label>
+            <input type="datetime" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="dateto">dateto:</label>
+            <input type="datetime" class="form-control" >
+          </div>
+          <select class="form-control" id="sel1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+          <div class="checkbox">
+            <label><input type="checkbox">check</label>
+          </div>
+            <input id="msg" type="text" class="form-control" name="msg" placeholder="search">
+          <button type="submit" class="btn btn-info">search</button>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- end of search box -->
 
         <!-- list start here -->
       <div class="container">
