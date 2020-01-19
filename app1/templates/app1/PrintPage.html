@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/Style3.css' %}">
+
+  </head>
+  <body>
+    <table>
+{% for i in '012'|make_list %}
+    <tr>
+      <td>
+    <div class="ll1">
+      <img src="{% static 'image/strip.jpg'%}" alt="" style="width:800px;height:100px;">
+    </div>
+    <!-- strip is here -->
+    <div class="ll2">
+      <div class="col1">
+        <div class="col1-1">{{flt.DesAirport}}</div>
+        <div class="col1-2">{{flt.type}}</div>
+        <div class="col1-3">{{flt.company}}{{flt.flightNum}}</div>
+        <div class="col1-4">6351</div>
+        <div class="col1-5"></div>
+      </div>
+      <div class="col2">
+        <div class="col2-1">
+          <div>
+            {{flt.EOBT}}
+          </div>
+          <div>
+            time2
+          </div>
+        </div>
+        <div class="col2-2">{{flt.route}}</div>
+      </div>
+      <div class="col3">{{flt.level}}
+      </div>
+      <!-- jadvalha -->
+      <div class="verl">
+        <div class="verl-1"></div>
+        <div class="verl-2"></div>
+        <div class="verl-3"></div>
+        <div class="verl-4"></div>
+      </div>
+      <div class="ver2">
+      </div>
+
+    </div>
+  </td>
+</tr>
+{%endfor%}
+</table>
+  </body>
+</html>

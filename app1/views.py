@@ -1,18 +1,43 @@
 from django.shortcuts import render
-from app1.forms import loginForm,RegisterForm,PassForm,flightInfoForm,CompanyForm,TypeForm
-from app1.models import user,typeList,companyList,flight
+from app1.forms import loginForm,RegisterForm,PassForm,flightInfoForm,CompanyForm,TypeForm,delForm
+from app1.models import user,typeList,companyList,flight,loggingTable
 from django.shortcuts import redirect
 from django.core.mail import send_mail
 import random
+from datetime import datetime,date
 import datetime
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
 import os
 import win32print
-# import cups
+from bootstrap_modal_forms.generic import BSModalCreateView,BSModalDeleteView
+from django.views.generic import FormView
+from app1.mixins import AjaxFormMixin
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.db.models.signals import post_delete,post_save
 
 
+#saving actions
+
+def save_flight(sender,instance,**kwargs):
+    lg=loggingTable(actionName="saved flight record",dateAndTime=datetime.datetime.now())
+    lg.save()
+    print("logging")
+
+post_save.connect(save_flight,sender=flight)
+
+
+# formviews Functions
+class addFlightFromView(AjaxFormMixin,FormView):
+    form_class=flightInfoForm
+    template_name='app1/Flight-info-ajax.html'
+    success_url='/success/'
+
+
+
+#
 # Create your views here.
 
 def mail(request):
@@ -34,8 +59,14 @@ def flightUpdate(request, id):
         flt = flight.objects.get(pk=id)
     except flight.DoesNotExist:
         raise Http404("flights does not exist")
+    if request.method=="POST" and 'updateBtn' in request.POST:
+        flt.company=request.POST['company']
+        flt.save()
+        return redirect('app1:flightlist')
+
+
     dp=win32print.GetDefaultPrinter()
-    os.startfile("C:\\Users\\amiri\\Documents\\GitHub\\FlightStrips_django1\\app1\\templates\\app1\\printStrip.html","print")
+    # os.startfile("C:\\Users\\amiri\\Documents\\GitHub\\FlightStrips_django1\\app1\\templates\\app1\\printStrip.html","print")
     # os.startfile(r"C:\Users\amiri\Documents\GitHub\FlightStrips_django1\app1\templates\app1\details.html","print")
     return render(request, 'app1/details.html', {'flt': flt})
 
@@ -171,7 +202,22 @@ def checklogin(usr,pss):
                 err="username is correct but password is wrong"
 
     return validate,err
+
+def validate_username(request):
+    usr=request.GET.get('username',None)
+    data={ 'username_exist':user.objects.filter(username__iexact=usr).exists(),}
+    return JsonResponse(data)
+
+def validate_company(request):
+    flightNum = request.GET.get('flightNum', None)
+
+    dat = {
+        'flightnum_is_taken': flight.objects.filter(flightNum__iexact=flightNum).exists(),}
+    return JsonResponse(dat)
+
 def flightinfo(request):
+    # check callsign is Excist
+    #
     week_days= ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
     dateDiff=''
     msg=''
@@ -340,12 +386,46 @@ def getflightlist(request):
     print(flights)
     return render(request,'app1/getflightlist.html',{'flights':flights})
 
+
+def PrintPage(request,id):
+
+    flt=flight.objects.get(id=id)
+
+    return render(request,'app1/PrintPage.html',{'flt':flt})
+
+# @login_required
 def flightlist(request):
     flights=flight.objects.all()
+    company=''
     if request.method=='POST' and 'btn3' in request.POST:
-        print("iterating...."+flight.objects.get(company=="ira"))
+        # company=request.POST['']
+        return redirect('app1:printStrip')
 
     if request.method=='POST' and 'delbtn' in request.POST:
         print(str(request.POST.get('delbtn')))
 
+    if request.method=='GET' and 'srchBtn' in request.GET:
+        company=request.GET['company']
+        dateFrom=request.GET['datefrom']
+        dateTo=request.GET['dateto']
+        # the result is between two dates
+        try:
+            flights=flight.objects.filter(dateFrom__range=(dateFrom,dateTo))
+        except flight.DoesNotExist or flights is None:
+            flights=flight.objects.all()
+
+
+    if request.method=='POST' and 'deleteBtn' in request.POST:
+        # print(str(request.POST.get('id','f.id')))
+        print("btn cancel")
+
+
     return render(request,'app1/flightlist.html',{'flights':flights})
+
+
+# BSModalForm
+class delFlight(BSModalDeleteView):
+    template_name = 'app1/del.html'
+    form_class = delForm
+    success_message = 'Success: Book was created.'
+    # success_url = reverse_lazy('app1:flightlist')

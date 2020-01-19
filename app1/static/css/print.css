@@ -1,0 +1,120 @@
+@media print {
+
+.header-up{
+  display: none;
+}
+
+.strip-box {
+  width: 900px ;
+  height: 100px;
+  margin: 0;
+  padding: 10px;
+  background-color: #007bff;
+  display: flex !important;
+}
+.space1 {
+  overflow: hidden;
+  width: 25px;
+  height: 100%;
+  background-color: ;
+}
+.vl1 {
+  border-left: 5px solid white;
+  height:80px;
+  position: absolute;
+  left: 35px;
+}
+.space2 {
+  overflow: hidden;
+  width: 150px;
+  height: 100%;
+  background-color: ;
+  margin-top: 20px;
+
+}
+.vl2 {
+  border-left: 5px solid white;
+  height:80px;
+  position: absolute;
+  left: 185px;
+}
+.space3 {
+  overflow: hidden;
+  width: 150px;
+  height: 100%;
+  background-color: ;
+  display: flex;
+}
+.vl3 {
+  border-left: 5px solid white;
+  height:80px;
+  position: absolute;
+  left: 335px;
+}
+.rota-space {
+  width: 100px;
+  height: 100%;
+}
+.rota {
+  margin-top: 50px;
+  float: right;
+  width: 50px;
+  height: 80px;
+  border-left: 5px solid white;
+  -ms-transform: rotate(60deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Safari prior 9.0 */
+  transform: rotate(60deg); /* Standard syntax */
+}
+.space4 {
+  overflow: hidden;
+  width: 120px;
+  height: 100%;
+  background-color: ;
+}
+.vl4 {
+  border-left: 5px solid white;
+  height:80px;
+  position: absolute;
+  left: 450px;
+}
+.space5 {
+  overflow: hidden;
+  width: 200px;
+  height: 100%;
+  background-color: ;
+  float: left;
+}
+.ho-vl {
+  width: 250px;
+  height: 38px;
+  background-color: ;
+  display: flex;
+}
+.ho-vl2 {
+  width: 250px;
+  height: 38px;
+  background-color: ;
+  display: flex;
+  border-top: 4px solid white;
+}
+.vl5 {
+  border-left: 5px solid white;
+  height:80px;
+  position: absolute;
+  left: 650px;
+}
+.calhol {
+  width: 50px;
+  height: 38px;
+  background-color: ;
+    border-right: 4px solid white;
+}
+.space6 {
+  overflow: hidden;
+  width: 200px;
+  height: 100%;
+  background-color: ;
+  float: left;
+}
+
+}

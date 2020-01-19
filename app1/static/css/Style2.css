@@ -221,9 +221,10 @@ body {
   width: 900px ;
   height: 100px;
   margin: 0;
+  left: -100;
   padding: 10px;
   background-color: #007bff;
-  display: flex;
+  display: flex !important;
 }
 .space1 {
   overflow: hidden;
@@ -239,9 +240,11 @@ body {
 }
 .space2 {
   overflow: hidden;
-  width: 150px;
+  width: 125px;
   height: 100%;
-    background-color: ;
+  background-color: ;
+  margin-top: 20px;
+
 }
 .vl2 {
   border-left: 5px solid white;
@@ -263,10 +266,11 @@ body {
   left: 335px;
 }
 .rota-space {
-  width: 100px;
+  width: 10px;
   height: 100%;
 }
 .rota {
+  font-size: 5;
   margin-top: 50px;
   float: right;
   width: 50px;
@@ -275,6 +279,16 @@ body {
   -ms-transform: rotate(60deg); /* IE 9 */
   -webkit-transform: rotate(45deg); /* Safari prior 9.0 */
   transform: rotate(60deg); /* Standard syntax */
+}
+.rota2 {
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -webkit-transform: rotate(270deg); /* Safari prior 9.0 */
+  transform: rotate(270deg); /* Standard syntax */
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: -10px;
+
 }
 .space4 {
   overflow: hidden;
@@ -328,7 +342,6 @@ body {
   float: left;
 }
 
-
 /*******search box *******/
 .topsearch {
   width: 100%;
@@ -346,4 +359,21 @@ body {
   background-color: red;
   margin: 0;
   padding: 0;
+}
+
+/*********new test for strip *******/
+.ll1 {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top:100px;
+}
+.ll2 {
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  background-color: red;
 }

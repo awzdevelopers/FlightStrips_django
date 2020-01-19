@@ -3,6 +3,12 @@ from datetime import date,datetime
 # Create your models here.
 
 
+class loggingTable(models.Model):
+    actionName=models.CharField(max_length=10,null=True)
+    dateAndTime=models.DateTimeField()
+
+
+
 class user(models.Model):
     name=models.CharField(max_length=20,null=True)
     family=models.CharField(max_length=20,null=True)
@@ -41,8 +47,6 @@ class flight(models.Model):
     delay=models.NullBooleanField(max_length=5,blank=True,null=True)
     change=models.NullBooleanField(max_length=5,blank=True,null=True)
     register=models.CharField(max_length=10,blank=True)
-
-
 
 
 class companyList(models.Model):

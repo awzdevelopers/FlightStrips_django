@@ -72,15 +72,16 @@
           <div class="wrapper">
             <div id="formContent">
               <form method="POST">
+                {% csrf_token %}
                 <p class="help"></p>
-              <input type="text" name="" value="{{ flt.company }}">
+              <input type="text" name="company" value="{{ flt.company }}">
               <input type="text" name="" value="{{ flt.flightNum }}">
               <input type="text" name="" value="{{ flt.type }}">
               <input type="text" name="" value="{{ flt.EOBT }}">
               <input type="text" name="" value="{{ flt.DesAirport }}">
               <input type="text" name="" value="{{ flt.level }}">
 
-                <button type="submit" class="btn btn-primary" name="sbt">Update</button>
+                <button type="submit" class="btn btn-primary" name="updateBtn">Update</button>
 
               </form>
             </div>
@@ -89,10 +90,7 @@
         <h5></h5>
 
           <!-- using library called bootstrap -->
-              <form method="POST">
 
-
-            </form>
           </div>
     </div>
 

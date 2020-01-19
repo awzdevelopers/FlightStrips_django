@@ -1,4 +1,79 @@
 
+# jspm
+
+
+      <script src="{% static 'js/zip.js' %}"></script>
+    <script src="{% static 'js/zip-ext.js' %}"></script>
+    <script src="{% static 'js/deflate.js' %}"></script>
+    <script src="{% static 'js/JSPrintManager.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script src="https://github.com/niklasvh/html2canvas/releases/download/v1.0.0-rc.5/html2canvas.min.js"></script>
+
+    <script >
+      JSPM.JSPrintManager.auto_reconnect=true;
+      JSPM.JSPrintManager.start();
+      JSPM.JSPrintManager.WS.onStatusChanged=function(){
+                          if(jspmWSStatus()){
+                            JSPM.JSPrintManager.getPrinters().then(function (myPrinters) {
+                             var options = '';
+                             for (var i = 0; i < myPrinters.length; i++) {
+                             options += '<option>' + myPrinters[i] + '</option>';
+                    }
+                    $('#installedPrinterName').html(options);
+                });
+              }
+      };
+
+      //Check JSPM WebSocket status
+        function jspmWSStatus() {
+            if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.Open)
+                return true;
+            else if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.Closed) {
+                alert('JSPrintManager (JSPM) is not installed or not running! Download JSPM Client App from https://neodynamic.com/downloads/jspm');
+                return false;
+            }
+            else if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.BlackListed) {
+                alert('JSPM has blacklisted this website!');
+                return false;
+            }
+        }
+
+        function print(o) {
+               if (jspmWSStatus()) {
+                   //generate an image of HTML content through html2canvas utility
+                   html2canvas(document.getElementById('card'), { scale: 5 }).then(function (canvas) {
+
+                       //Create a ClientPrintJob
+                       var cpj = new JSPM.ClientPrintJob();
+                       //Set Printer type (Refer to the help, there many of them!)
+                       if ($('#useDefaultPrinter').prop('checked')) {
+                           cpj.clientPrinter = new JSPM.DefaultPrinter();
+                       } else {
+                           cpj.clientPrinter = new JSPM.InstalledPrinter($('#installedPrinterName').val());
+                       }
+                       //Set content to print...
+                       var b64Prefix = "data:image/png;base64,";
+                       var imgBase64DataUri = canvas.toDataURL("image/png");
+                       var imgBase64Content = imgBase64DataUri.substring(b64Prefix.length, imgBase64DataUri.length);
+
+                       var myImageFile = new JSPM.PrintFile(imgBase64Content, JSPM.FileSourceType.Base64, 'myFileToPrint.png', 1);
+                       //add file to print job
+                       cpj.files.push(myImageFile);
+
+                       //Send print job to printer!
+                       cpj.sendToClient();
+
+
+                   });
+               }
+           }
+
+    </script>
+# jspm
+
     <!--main page start here-->
 <!-- intial information type and company popup pages -->
 <!-- company -->

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
+
+    <title></title>
+  </head>
+  <body>
+<form  method="post" class="my-ajax-form" data-url='{{request.build_absolute_uri|safe}}'>
+  {% csrf_token%}
+  {{form.as_p}}
+
+  <input type="submit" name="submit1" value="submit">
+</form>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var $mf=$(".my-ajax-form");
+    $mf.submit(function(event){
+      event.preventDefault();
+      var $data=$(this).serialize();
+      console.log($data);
+    });
+  });
+
+</script>
+  </body>
+</html>

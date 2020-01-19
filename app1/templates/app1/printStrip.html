@@ -8,12 +8,19 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
     <!-- jquery -->
-    
+
         <!-- jquery -->
     <!-- code Removed -->
-    <link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">
-    <link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\bootstrap.min.css">
-    <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>
+    <!-- <link rel="stylesheet" href="{% static 'css/print.css' %}" media="print"> -->
+    <link rel="stylesheet" href="{% static 'css/Style2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Style3.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
+
+
+
+
 
     <!-- Latest compiled and minified CSS -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
@@ -78,13 +85,14 @@
         <p>قابلیت چاپ استریپ در مدت زمان مشخص توسط کاربر و ....</p>
       </div>
     </div>
+
     <!-- strips -->
     <table class="table table-hover">
-      {% for i in flt %}
+      {% for f in flt %}
         <tr class="flight-list-hover" id="{{ i.id }}">
       <td></td>
       <td>
-        <div class="strip" >
+        <!-- <div class="strip" >
           <div class="des" onclick="javascript:clicked('{{ i.DesAirport }}')">
             {{ i.DesAirport }}
           </div>
@@ -93,23 +101,77 @@
 
           <div class="callsing">
             {{i.company}} {{i.flightNum}}
-          </div>
+          </div> -->
+<!-- latest strip style is here -->
 
-<div class="EOBT">
-</div>
-        </div>
+<!-- end of the latest style -->
+              <!-- strip style is here -->
+
+
+              <div class="strip-box" id="test1">
+                <div class="space1">{{f.DesAirport}}
+{{f.type}}
+{{6350}}
+                </div>
+                <div class="vl1"></div>
+                <div class="space2">{{f.company}}{{f.flightNum}}</div>
+                <div class="vl2"></div>
+                <div class="space3">{{f.EOBT}}
+                  <div class="rota-space"></div>
+                  <div class="rota"><p class="rota2">{{f.route}}</p></div>
+                </div>
+                <div class="vl3"></div>
+                <div class="space4">{{f.level}}</div>
+                <div class="vl4"></div>
+                <!--table -->
+                <div class="space5">
+
+                  <div class="ho-vl">
+                    <div class="calhol"></div>
+                    <div class="calhol"></div>
+                    <div class="calhol"></div>
+                    <div class="calhol"></div>
+                  </div>
+                  <div class="ho-vl2">
+                    <div class="calhol"></div>
+                    <div class="calhol"></div>
+                    <div class="calhol"></div>
+                    <div class="calhol"></div>
+                  </div>
+                </div>
+                <div class="vl5"></div>
+                <div class="space6"></div>
+              </div>
+
+
+
       </td>
       <td><a href="#"><img src="{% static 'image/delete.png' %}" alt=""></a></td>
       <td><a href="#"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
-      <td><a href="{% url 'app1:printStrip'%}"><img src="{% static 'image/print.png' %}" alt="" onclick="javascript:printstrip('{{i.id }}')"></a></td>
+      <td><a href="{% url 'app1:PrintPage' f.id %}"><img src="{% static 'image/print.png' %}" alt=""></a></td>
       <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
       </tr>
 
       {% endfor %}
     </table>
 
-<<<<<<< HEAD
+
 <script type="text/javascript">
+
+function printDIV(d){
+    var mywindow=window.open('','mywin','height=400,width=600');
+
+    mywindow.document.write('<html><head><title>'+document.title+'</title>');
+    mywindow.document.write('</head><body><h2>salam</h2>');
+    mywindow.document.write('<h1>'+document.getElementById(d)+'</h1>');
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close();
+    mywindow.focus();
+    mywindow.print();
+    mywindow.close();
+}
+
 function clicked(ss){
   alert("clicked "+ss);
 }
@@ -125,48 +187,10 @@ function clicked(ss){
 
   }
 </script>
-=======
-
-
-    <!-- strip style is here -->
-<div class="strip-box">
-  <div class="space1"></div>
-  <div class="vl1"></div>
-  <div class="space2"></div>
-  <div class="vl2"></div>
-  <div class="space3">
-    <div class="rota-space"></div>
-    <div class="rota"></div>
-  </div>
-  <div class="vl3"></div>
-  <div class="space4"></div>
-  <div class="vl4"></div>
-  <!--table -->
-  <div class="space5">
-    <div class="ho-vl">
-      <div class="calhol"></div>
-      <div class="calhol"></div>
-      <div class="calhol"></div>
-      <div class="calhol"></div>
-    </div>
-    <div class="ho-vl2">
-      <div class="calhol"></div>
-      <div class="calhol"></div>
-      <div class="calhol"></div>
-      <div class="calhol"></div>
-    </div>
-  </div>
-  <div class="vl5"></div>
-  <div class="space6"></div>
-
-
-</div>
 
 
 
 
-
->>>>>>> 4474333f66ec1292ab2e77314467da3b6f30cd59
     <!-- {% for f in flt%}
     <div class="card" style="width:500px">
     <img class="card-img-top" src="{% static 'image/strip.jpg' %}" alt="Card image">

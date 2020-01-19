@@ -2,6 +2,8 @@ from django import forms
 from app1.models import user,flight,companyList,typeList,DaysOfweek
 from datetimepicker.widgets import DateTimePicker
 from bootstrap_datepicker_plus import DatePickerInput,TimePickerInput
+from bootstrap_modal_forms.forms import BSModalForm
+
 
 
 
@@ -84,3 +86,7 @@ class CompanyForm(forms.ModelForm):
 
            'company':forms.TextInput(attrs={'class':'form-control','placeholder':'type name...'}),
         }
+class delForm(BSModalForm):
+    class Meta:
+        model=flight
+        fields=['company']

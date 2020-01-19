@@ -4,8 +4,6 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/Style.css' %}">
-
-    <link rel="stylesheet" href="{% static 'css/Style2.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
     <!-- code Removed -->
@@ -14,7 +12,7 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-  <link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">
+  <link rel="stylesheet" href="{% static 'css/Style2.css' %}">
 
     <!--<link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\bootstrap.min.css">
     <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>-->
@@ -30,8 +28,13 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- modal form -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- modal form -->
     <meta charset="utf-8">
     <title>AWZ_-_Developer's</title>
+
   </head>
   <body>
     <div class="header-up">
@@ -73,19 +76,21 @@
       </nav>
     </div>
 
-
+{% block contents%}
 <!--search -->
 
     <div class="topsearch">
       <div class="container">
-        <form class="form-inline" action="">
+        <form class="form-inline" method="get">
+          <input id="company" type="text" class="form-control" name="company" placeholder="Call Sign">
+
           <div class="form-group">
-            <label for="datefrom">dateFrom:</label>
-            <input type="datetime" class="form-control">
+            <label for="datefrom">DateFrom:</label>
+            <input type="datetime" name="datefrom" id="datepicker" class="form-control">
           </div>
           <div class="form-group">
-            <label for="dateto">dateto:</label>
-            <input type="datetime" class="form-control" >
+            <label for="dateto">Dateto:</label>
+            <input type="datetime" name="dateto" id="datepicker1" class="form-control" >
           </div>
           <select class="form-control" id="sel1">
             <option>1</option>
@@ -96,15 +101,20 @@
           <div class="checkbox">
             <label><input type="checkbox">check</label>
           </div>
-            <input id="msg" type="text" class="form-control" name="msg" placeholder="search">
-          <button type="submit" class="btn btn-info">search</button>
+          <button type="submit" class="btn btn-info" name="srchBtn">search</button>
         </form>
 
       </div>
     </div>
 
     <!-- end of search box -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
 
+        </div>
+      </div>
+    </div>
         <!-- list start here -->
       <div class="container">
         <div>
@@ -132,11 +142,30 @@
               <td>{{ f.Register }}</td>
 
 
-              <td><a href="#"><img src="{% static 'image/delete.png' %}" alt=""></a></td>
+              <td><button class="btn btn-xs btn-danger" type="button" data-toggle="modal" data-target="#confirmDelete" data-title="Delete User" data-message="Are you sure you want to delete this user ?"><img src="{% static 'image/delete.png' %}" alt=""></button></td>
               <td><a href="{% url 'app1:flightUpdate' f.id %}"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
               <td><a href="{% url 'app1:printStrip'%}"><img src="{% static 'image/print.png' %}" alt=""></a></td>
-              <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
+              <td><a href="#" class="msge"><img  src="{% static 'image/message.png' %}" alt=""></a></td>
               <td><input type="checkbox" name="ch1" value='{ f.id }'>{{ fi.d }}</td>
+
+              <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+              <div class="modal-dialog">
+              <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                 <h4 class="modal-title"> حذف رکورد</h4>
+               </div>
+               <div class="modal-body">
+                 <p> مطمئن هستید؟</p>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">لغو</button>
+                 <button type="submit" type="button" class="btn btn-danger" name="deleteBtn" value="{{f.id}}" id="confirm">پاک کردن</button>
+               </div>
+              </div>
+              </div>
+              </div>
+
             </tr>
 
             {% endfor %}
@@ -145,5 +174,54 @@
         </form>
       </div>
     </div>
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+     $( function() {
+       $( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
+       $( "#datepicker1" ).datepicker({dateFormat: 'yy-mm-dd'});
+
+     } );
+     </script>
+
+     <!-- modal -->
+     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+     <script src="{% static 'js/jquery.min.js' %}"></script>
+     <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+   <!-- You can alternatively load the minified version -->
+     <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+     <script type="text/javascript">
+       $(function () {
+
+           $(".delete-flight").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+              });
+           });
+
+
+</script>
+     <!-- modal -->
+
+<script type="text/javascript">
+$(document).delegate(".msge","click",function(){
+  console.log("messs");
+});
+  $('#confirmDelete').on('show.bs.modal', function (e) {
+      $message = $(e.relatedTarget).attr('data-message');
+      $(this).find('.modal-body p').text($message);
+      $title = $(e.relatedTarget).attr('data-title');
+      $(this).find('.modal-title').text($title);
+
+      // Pass form reference to modal for submission on yes/ok
+      var form = $(e.relatedTarget).closest('form');
+      $(this).find('.modal-footer #confirm').data('form', form);
+  });
+
+  <!-- Form confirm (yes/ok) handler, submits form -->
+  $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
+      $(this).data('form').submit();
+  });
+</script>
   </body>
 </html>
