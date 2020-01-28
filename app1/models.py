@@ -47,6 +47,11 @@ class flight(models.Model):
     delay=models.NullBooleanField(max_length=5,blank=True,null=True)
     change=models.NullBooleanField(max_length=5,blank=True,null=True)
     register=models.CharField(max_length=10,blank=True)
+    stripImage=models.ImageField(upload_to ='image/',default = 'strip.jpg')
+    # "C:\Users\amiri\Documents\GitHub\FlightStrips_django1\media\app1\static\strip.jpg" does not exist
+
+
+    # fltARRorDEPorOVER=models.CharField(max_length=10,blank=True)
 
 
 class companyList(models.Model):

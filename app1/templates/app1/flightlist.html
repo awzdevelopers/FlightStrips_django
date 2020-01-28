@@ -146,7 +146,8 @@
               <td><a href="{% url 'app1:flightUpdate' f.id %}"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
               <td><a href="{% url 'app1:printStrip'%}"><img src="{% static 'image/print.png' %}" alt=""></a></td>
               <td><a href="#" class="msge"><img  src="{% static 'image/message.png' %}" alt=""></a></td>
-              <td><input type="checkbox" name="ch1" value='{ f.id }'>{{ fi.d }}</td>
+              <td> <input type="checkbox" name="checked" value="{{f.id}}">انتخاب </td>
+
 
               <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
               <div class="modal-dialog">

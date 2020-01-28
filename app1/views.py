@@ -10,13 +10,15 @@ import openpyxl
 import requests
 from bs4 import BeautifulSoup
 import os
-import win32print
 from bootstrap_modal_forms.generic import BSModalCreateView,BSModalDeleteView
 from django.views.generic import FormView
 from app1.mixins import AjaxFormMixin
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models.signals import post_delete,post_save
+import os,sys
+import win32print
+from PIL import Image,ImageDraw,ImageFont
 
 
 #saving actions
@@ -390,12 +392,27 @@ def getflightlist(request):
 def PrintPage(request,id):
 
     flt=flight.objects.get(id=id)
+    stripImage(flt)
+    # https://stackoverflow.com/questions/53765699/python-win32print-job-status
+    # printing
+    p=win32print.OpenPrinter('OneNote')
+    # p=win32print.GetDefaultPrinter()
+    print(p)
 
+    job=win32print.StartDocPrinter(p,1,("test priniting message",None,"RAW"))
+    win32print.StartPagePrinter(p)
+    win32print.WritePrinter(p,"1235468foo".encode('utf-8'))
+    win32print.EndPagePrinter(p)
+    print(win32print.JOB_STATUS_ERROR)
+    # print
     return render(request,'app1/PrintPage.html',{'flt':flt})
 
 # @login_required
 def flightlist(request):
     flights=flight.objects.all()
+    chk = request.POST.getlist('checked')
+    print(chk)
+
     company=''
     if request.method=='POST' and 'btn3' in request.POST:
         # company=request.POST['']
@@ -422,6 +439,29 @@ def flightlist(request):
 
     return render(request,'app1/flightlist.html',{'flights':flights})
 
+def stripImage(fltData):
+
+    # loading data of flight by id
+
+    baseimage=Image.open(r'C:\Users\amiri\Documents\GitHub\FlightStrips_django1\app1\static\image\stripD.jpg','r').convert('RGB')
+    newimg=Image.new('RGB',baseimage.size,(255,255,255))
+
+    fnt=ImageFont.truetype('arial.ttf',50)
+    d=ImageDraw.Draw(baseimage)
+    d.text((90,5),fltData.DesAirport,font=fnt,fill=(0,0,0))
+    d.text((350,5),fltData.type,font=fnt,fill=(0,0,0))
+    d.text((130,120),fltData.company,font=fnt,fill=(0,0,0))
+    d.text((220,120),fltData.flightNum,font=fnt,fill=(0,0,0))
+    d.text((500,50),str(fltData.EOBT),font=fnt,fill=(0,0,0))
+    d.text((1000,50),fltData.level,font=fnt,fill=(0,0,0))
+    d.text((750,220),fltData.route,font=fnt,fill=(0,0,0))
+
+    baseimage.rotate(90)
+    baseimage.save(r"C:\Users\amiri\Documents\GitHub\FlightStrips_django1\app1\static\image\strip"+fltData.company+fltData.flightNum+".jpg")
+    fltData.stripImage="strip"+fltData.company+fltData.flightNum+".jpg"
+    fltData.save()
+    baseimage.show()
+    return True
 
 # BSModalForm
 class delFlight(BSModalDeleteView):

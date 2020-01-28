@@ -116,7 +116,7 @@
                 <div class="vl1"></div>
                 <div class="space2">{{f.company}}{{f.flightNum}}</div>
                 <div class="vl2"></div>
-                <div class="space3">{{f.EOBT}}
+                <div class="space3">{{f.EOBT|time:'h:i'}}
                   <div class="rota-space"></div>
                   <div class="rota"><p class="rota2">{{f.route}}</p></div>
                 </div>
@@ -150,9 +150,12 @@
       <td><a href="#"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
       <td><a href="{% url 'app1:PrintPage' f.id %}"><img src="{% static 'image/print.png' %}" alt=""></a></td>
       <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
+      <td> <input type="checkbox" id="checked" name="" value="{{f.id}}">انتخاب </td>
+
       </tr>
 
       {% endfor %}
+
     </table>
 
 
