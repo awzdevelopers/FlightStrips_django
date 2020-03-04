@@ -38,8 +38,8 @@ class flight(models.Model):
     flightNum=models.CharField(max_length=20,null=True)
     type=models.CharField(max_length=10,null=True)
     route=models.CharField(max_length=20,null=True)
-    dateFrom=models.DateTimeField(blank=True,null=True)
-    dateTo=models.DateTimeField(blank=True,null=True)
+    dateFrom=models.DateField(blank=True,null=True)
+    dateTo=models.DateField(blank=True,null=True)
     EOBT=models.TimeField(blank=True,null=True)
     DesAirport=models.CharField(max_length=10,blank=True)
     DepAirport=models.CharField(max_length=10,blank=True)
@@ -47,7 +47,17 @@ class flight(models.Model):
     delay=models.NullBooleanField(max_length=5,blank=True,null=True)
     change=models.NullBooleanField(max_length=5,blank=True,null=True)
     register=models.CharField(max_length=10,blank=True)
-    stripImage=models.ImageField(upload_to ='image/',default = 'strip.jpg')
+    stripImage=models.ImageField(null=True,blank=True)
+    printed=models.NullBooleanField(max_length=5,blank=True,null=True)
+    squack=models.CharField(max_length=20,null=True,default='----')
+    EOBTrevision=models.TimeField(blank=True,null=True)
+    typeChange=models.CharField(max_length=10,null=True)
+    # user=models.ForeignKey(user)
+
+    def __str__(self):
+        return "{} {} Date:{} printed:{} squack:{}".format(self.company,self.flightNum,self.dateFrom,self.printed,self.squack)
+
+
     # "C:\Users\amiri\Documents\GitHub\FlightStrips_django1\media\app1\static\strip.jpg" does not exist
 
 
@@ -63,3 +73,5 @@ class typeList(models.Model):
     type=models.CharField(max_length=10,null=True)
     def __str__(self):
         return self.type
+class BackupData(models.Model):
+    pass

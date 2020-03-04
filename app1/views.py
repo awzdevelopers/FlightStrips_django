@@ -4,24 +4,41 @@ from app1.models import user,typeList,companyList,flight,loggingTable
 from django.shortcuts import redirect
 from django.core.mail import send_mail
 import random
-from datetime import datetime,date
+from datetime import datetime,date,time,timedelta
 import datetime
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
-import os
+from urllib.request import urlopen
 from bootstrap_modal_forms.generic import BSModalCreateView,BSModalDeleteView
 from django.views.generic import FormView
 from app1.mixins import AjaxFormMixin
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models.signals import post_delete,post_save
 import os,sys
 import win32print
-from PIL import Image,ImageDraw,ImageFont
-
+import win32ui
+from PIL import Image,ImageDraw,ImageFont,ImageFilter,ImageWin
+from django.db.models import Q
+import io
+import rx
+import time
+from django.core import serializers
+import threading
+from app1.functions import createSquack,sendpass,stripImage,printStripFunction
 
 #saving actions
+def Flightinfoajax(request):
+    return render(request,'app1/Flight-info-ajax.html')
+def aj_IDlist(request):
+    quer = flight.objects.filter(company='IRA')
+    datase = serializers.serialize('json',list(quer))
+    data={'datase':datase}
+    return JsonResponse(data, safe=False)
+
+def setting(request):
+    return render(request,'app1/setting.html')
 
 def save_flight(sender,instance,**kwargs):
     lg=loggingTable(actionName="saved flight record",dateAndTime=datetime.datetime.now())
@@ -56,6 +73,7 @@ def mail(request):
                 return render(request,'app1/PassRecovery.html',{'frm':pssfrm,'message':"ایمیل مورد نظر وجود ندارد"})
 
     return render(request,'app1/passRecovery.html',{'frm':pssfrm})
+
 def flightUpdate(request, id):
     try:
         flt = flight.objects.get(pk=id)
@@ -126,21 +144,7 @@ def uploadexcel(request):
         # print(excel_data[0][0])
 
     return render(request,'app1/upload.html',{"excel_data":excel_data})
-def sendpass(emailaddress):
-    try:
-        newpass=random.randint(456789,987654)
-        send_mail('رمز جدید',
-        'رمز جدید شما: '+str(newpass),
-        'aaamir829@gmail.com',
-        [emailaddress],
-        fail_silently=False)
-        q=user.objects.get(email=emailaddress)
-        q.password=newpass
-        q.save()
-        result=1
-    except Exception as e:
-        result=0
-    return result
+
 
 
 def printStrip(request):
@@ -148,16 +152,7 @@ def printStrip(request):
     return render(request, 'app1/printStrip.html',{'flt':flt})
 
 
-def checkmailexist(emailaddress):
-    try:
-        q=user.objects.filter(email=emailaddress)
-    except user.DoesNotExist:
-        q=None
-    if q.count()<1:
-        r=0
-    else:
-        r=1
-    return r
+
 def test(request,message):
     return render(request,'app1/test.html',{'msg':message})
 
@@ -217,6 +212,11 @@ def validate_company(request):
         'flightnum_is_taken': flight.objects.filter(flightNum__iexact=flightNum).exists(),}
     return JsonResponse(dat)
 
+def autoUpdateflightlist(request):
+    dd=flight.objects.all()
+    sd=serializers.serialize('json',dd)
+    return JsonResponse(sd,safe=False)
+    # return HttpResponse(flghtlist,content_type='application/json')
 def flightinfo(request):
     # check callsign is Excist
     #
@@ -302,6 +302,14 @@ def flightinfo(request):
 
     return render(request,'app1/flight-info.html',{'frm':flightfrm,'name':name,'cmp':cmp,'tp':tp,'msg':msg})
 
+def checkCallSigh(request):
+    flightNum = request.GET.get('company', None)
+    flightNum = request.GET.get('flightNum', None)
+    flightNum = request.GET.get('dateFrom', None)
+    isExist = {
+        'callsign_is_taken': flight.objects.filter(company=company,flightNum=flightNum,dateFrom=depDate).exists(),}
+    return JsonResponse(isExist)
+
 def Register(request):
 
     frm2 = RegisterForm
@@ -335,28 +343,9 @@ def Register(request):
     return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2})
 
 
-def checktekarariUser(usr):
-    tek=0
-    try:
-        u=user.objects.filter(username=usr)
-    except user.DoesNotExist:
-        u=0
-    if u.count()>0:
-        tek=1
-    else:
-        tek=0
-    return tek
-def checktekarariEmail(email):
-    tek=0
-    try:
-        u=user.objects.filter(email=email)
-    except user.DoesNotExist:
-        u=0
-    if u.count()>0:
-        tek=1
-    else:
-        tek=0
-    return tek
+
+
+
 def main(request):
     frmc=CompanyForm
     frmt=TypeForm
@@ -377,46 +366,127 @@ def main(request):
     cy=companyList.objects.all()
     tp=typeList.objects.all()
     return render(request,'app1/main.html',{'frmc':frmc,'frmt':frmt,'msg':msg,'cy':cy,'tp':tp})
+def printing(request):
+    dateNow=(datetime.datetime.now()).strftime("%Y")+"-"+(datetime.datetime.now()).strftime("%m")+"-"+(datetime.datetime.now()).strftime("%d")
+    timeNow=(datetime.datetime.now()).strftime("%H:%M:%S")
+    # timeNow=datetime.datetime.strptime(timeNow,"%H:%M")
+    # newTime=timeNow+timedelta(hours=3)
+    # +":"+(datetime.datetime.now()).strftime("%M")+":00"
+    print("date now is: "+str(dateNow))
+    print("time now is: "+str(timeNow))
+    print(type(timeNow))
+    print(type(dateNow))
+
+
+    # n=datetime.datetime.(datetime.date.today(),timeNow.time())
+    print("<--------")
+    # print(n)
+    print("-------->")
+
+    q=flight.objects.filter(dateFrom=dateNow)
+    if q is None:
+        pass
+    else:
+        for i in q:
+            # if i.EOBT>timeNow.time():
+            p=datetime.datetime.combine(datetime.date.today(),i.EOBT)
+            print("greater.....")
+            print("EOBT: "+str(i.EOBT))
+            print("timeNow: "+str(timeNow))
+
+            print("diffrent is odf EOBT : "+str(((i.EOBT)-(timeNow))))
+
+        data={'status':True}
+    return JsonResponse(data)
 def getflightlist(request):
+    # source of training
+    # https://www.youtube.com/watch?v=fmf_y8zpOgA
     URL="https://www.digikala.com/product/dkp-1582966/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%87%D9%88%D8%A2%D9%88%DB%8C-%D9%85%D8%AF%D9%84-p30-lite-mar-lx1m-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA?variant_id=4272884"
+    URL2="https://efpl.airport.ir/"
+
+
+    urlofCaptcha="https://efpl.airport.ir/Login/JpegImage.aspx"
+
     headers={"agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'}
-    page=requests.get(URL,headers=headers)
+    page=requests.get(urlofCaptcha,headers=headers)
+# 2
+    # html=urlopen(URL2)
+    # s=BeautifulSoup(html.read(),'lxml')
+    # print(s.body)
     soup=BeautifulSoup(page.content,'html.parser')
+    usename=soup.find('input',id="edUser")
+
+
+    # soup.find_all(attrs={"class":"img-rounded"})
     # flights=soup.prettify()
     # findAll("div", {"class": "stylelistrow"})
-    flights=soup.find("div",{"class":"c-product__seller-price-raw js-price-value"}).get_text()
-    print(flights)
-    return render(request,'app1/getflightlist.html',{'flights':flights})
+    # flights=soup.find("div",{"class":"c-product__seller-price-raw js-price-value"}).get_text()
+    return render(request,'app1/getflightlist.html',{'s':soup,'src':urlofCaptcha,'usr':usename})
+
 
 
 def PrintPage(request,id):
 
     flt=flight.objects.get(id=id)
-    stripImage(flt)
-    # https://stackoverflow.com/questions/53765699/python-win32print-job-status
-    # printing
-    p=win32print.OpenPrinter('OneNote')
-    # p=win32print.GetDefaultPrinter()
-    print(p)
+    stripimage=stripImage(flt)
+    successfulrpint=printStripFunction(id)
+    if stripImage:
+        if successfulrpint:
+            print("strip image is created and printed")
+        else:
+            print("the image is created buuut noot printed!!!!")
+    else:
+        print("strip image creation error!!!")
 
-    job=win32print.StartDocPrinter(p,1,("test priniting message",None,"RAW"))
-    win32print.StartPagePrinter(p)
-    win32print.WritePrinter(p,"1235468foo".encode('utf-8'))
-    win32print.EndPagePrinter(p)
-    print(win32print.JOB_STATUS_ERROR)
+    # p=win32print.GetDefaultPrinter()
+# 1
+    # job=win32print.StartDocPrinter(p,1,("test priniting message",None,"RAW"))
+    # win32print.StartPagePrinter(p)
+# 1
+    # win32print.WritePrinter(p,"1235468foo".encode('utf-8'))
+# 1
+    # print("job id is: "+str(job))
+    # win32print.EndPagePrinter(p)
+    # print(win32print.JOB_STATUS_OFFLINE)
+# 1
     # print
     return render(request,'app1/PrintPage.html',{'flt':flt})
-
+# def printit():
+#     print("threading....")
 # @login_required
+def retriveData():
+    while True:
+        print("dataaa")
+        time.sleep(2)
+    return True
 def flightlist(request):
+    # threading.Timer(5,printit).start()
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'app1','media')
+    print(MEDIA_ROOT)
+
+    # image manipulations
+
+    # end of image manipulations
+
     flights=flight.objects.all()
-    chk = request.POST.getlist('checked')
-    print(chk)
+
+
+
 
     company=''
     if request.method=='POST' and 'btn3' in request.POST:
+        chk = request.POST.getlist('checked')
+        for i in chk:
+            print("flight list "+i)
+            flt=flight.objects.get(id=i)
+            stripImage(flt)
+            printStripFunction(i)
+
+
         # company=request.POST['']
-        return redirect('app1:printStrip')
+        # return redirect('app1:printStrip')
 
     if request.method=='POST' and 'delbtn' in request.POST:
         print(str(request.POST.get('delbtn')))
@@ -427,7 +497,7 @@ def flightlist(request):
         dateTo=request.GET['dateto']
         # the result is between two dates
         try:
-            flights=flight.objects.filter(dateFrom__range=(dateFrom,dateTo))
+            flights=flight.objects.filter(Q(dateFrom__range=(dateFrom,dateTo)) | Q(company=company))
         except flight.DoesNotExist or flights is None:
             flights=flight.objects.all()
 
@@ -435,33 +505,12 @@ def flightlist(request):
     if request.method=='POST' and 'deleteBtn' in request.POST:
         # print(str(request.POST.get('id','f.id')))
         print("btn cancel")
-
-
     return render(request,'app1/flightlist.html',{'flights':flights})
 
-def stripImage(fltData):
 
-    # loading data of flight by id
 
-    baseimage=Image.open(r'C:\Users\amiri\Documents\GitHub\FlightStrips_django1\app1\static\image\stripD.jpg','r').convert('RGB')
-    newimg=Image.new('RGB',baseimage.size,(255,255,255))
 
-    fnt=ImageFont.truetype('arial.ttf',50)
-    d=ImageDraw.Draw(baseimage)
-    d.text((90,5),fltData.DesAirport,font=fnt,fill=(0,0,0))
-    d.text((350,5),fltData.type,font=fnt,fill=(0,0,0))
-    d.text((130,120),fltData.company,font=fnt,fill=(0,0,0))
-    d.text((220,120),fltData.flightNum,font=fnt,fill=(0,0,0))
-    d.text((500,50),str(fltData.EOBT),font=fnt,fill=(0,0,0))
-    d.text((1000,50),fltData.level,font=fnt,fill=(0,0,0))
-    d.text((750,220),fltData.route,font=fnt,fill=(0,0,0))
 
-    baseimage.rotate(90)
-    baseimage.save(r"C:\Users\amiri\Documents\GitHub\FlightStrips_django1\app1\static\image\strip"+fltData.company+fltData.flightNum+".jpg")
-    fltData.stripImage="strip"+fltData.company+fltData.flightNum+".jpg"
-    fltData.save()
-    baseimage.show()
-    return True
 
 # BSModalForm
 class delFlight(BSModalDeleteView):

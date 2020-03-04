@@ -7,8 +7,8 @@
 
   </head>
   <body>
+
     <table>
-{% for i in '012'|make_list %}
     <tr>
       <td>
     <div class="ll1">
@@ -20,7 +20,7 @@
         <div class="col1-1">{{flt.DesAirport}}</div>
         <div class="col1-2">{{flt.type}}</div>
         <div class="col1-3">{{flt.company}}{{flt.flightNum}}</div>
-        <div class="col1-4">6351</div>
+        <div class="col1-4">{{flt.squack}}</div>
         <div class="col1-5"></div>
       </div>
       <div class="col2">
@@ -47,12 +47,9 @@
       </div>
 
     </div>
-    <img src="{{ flt.image.url }}" alt="fhf"/>
-<h1>ghfhgfhf</h1>
+    <img src="{{ flt.stripImage.url }}" width="600px" height="74px" alt="fhf"/>
   </td>
 </tr>
-{%endfor%}
 </table>
-gghf
   </body>
 </html>

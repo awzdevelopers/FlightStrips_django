@@ -377,3 +377,8 @@ body {
   height: 100px;
   background-color: red;
 }
+/******** setting page *********/
+.sett {
+  padding: 100px;
+  align-items: center;
+}

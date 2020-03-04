@@ -8,6 +8,15 @@
     <title></title>
   </head>
   <body>
+    <table>
+      <tr>
+      <th>ID</th>
+      </tr>
+      <tr>
+      <td>
+      </td>
+      </tr>
+    </table>
 <form  method="post" class="my-ajax-form" data-url='{{request.build_absolute_uri|safe}}'>
   {% csrf_token%}
   {{form.as_p}}
@@ -17,14 +26,33 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function(){
-    var $mf=$(".my-ajax-form");
-    $mf.submit(function(event){
-      event.preventDefault();
-      var $data=$(this).serialize();
-      console.log($data);
+$(document).on('load',function(){
+    $.ajax({
+      url:'../aj_IDlist',
+      dataType:'json',
+      success:function(data){
+        var sq=JSON.parse(data.datase);
+        var v = sm[0].fields.type;
+        $("table tr td").append(v);
+
+        alert(v);
+
+      }
+
+
     });
-  });
+
+
+});
+
+  // $(document).ready(function(){
+  //   var $mf=$(".my-ajax-form");
+  //   $mf.submit(function(event){
+  //     event.preventDefault();
+  //     var $data=$(this).serialize();
+  //     console.log($data);
+  //   });
+  // });
 
 </script>
   </body>

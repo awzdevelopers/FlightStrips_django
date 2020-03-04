@@ -27,7 +27,7 @@
     <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>-->
 <!-- commented -->
     <!-- Latest compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
 
     <!-- jQuery library -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
@@ -72,6 +72,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">Setting</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
@@ -139,18 +142,21 @@
 
 
 
-    $("#id_flightNum").change(function(){
+    $("#id_flightNum,#id_company,#id_DateFrom").change(function(){
       // var comp=$(this).children("option:selected").text();
-      var flightNum=$(this).val();
+      var company=$("#id_company").val();
+      var flightNum=$("#id_flightNum").val();
+      var dateFrom=$("#id_dateFrom").val();
+
 
       alert(flightNum+"شرکت انتخاب شده ");
 
       $.ajax({
-        url: '{% url "app1:validate_company" %}',
-        data:{'flightNum':flightNum},
+        url: '{% url "app1:checkCallSigh" %}',
+        data:{'flightNum':flightNum,'company':company,'flightNum':flightNum},
         dataType:'json',
         success:function(dat){
-          if(dat.flightnum_is_taken){
+          if(dat.isExist){
             alert("این شرکت قبلا ثبت شده است ");
           }else {
             alert("این شرکت مجاز است");

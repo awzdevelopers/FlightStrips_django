@@ -70,6 +70,9 @@
             <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="">Setting</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
           </li>
         </ul>
@@ -118,9 +121,9 @@
         <!-- list start here -->
       <div class="container">
         <div>
-          <form method="POST">
+          <form  method="POST">
            {% csrf_token %}
-          <table class="table table-hover">
+          <table id="tblFlightlist" class="table table-hover">
             <th>CallSign</th>
             <th>Type</th>
             <th>Departure</th>
@@ -129,8 +132,7 @@
             <th>Date</th>
             <th>Route</th>
             <th>Register</th>
-            {% for f in flights %}
-
+              {% for f in flights %}
             <tr class="flight-list-hover">
               <td>{{ f.company }} {{ f.flightNum }}</td>
               <td>{{ f.type }}</td>
@@ -170,6 +172,7 @@
             </tr>
 
             {% endfor %}
+
           </table>
           <input class="btn btn-success" type="submit" name="btn3" value="Send For Strip">
         </form>
@@ -179,11 +182,43 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+    setInterval(function(){
+      $("#tblFlightlist").empty();
+
+      $.ajax({
+        type:"GET",
+        url:"{% url 'app1:autoUpdateflightlist'%}"
+            }).done(function(data){
+        var myv=JSON.parse(data);
+        for(i=0;i<myv.length;i++){
+        var img1="<img src=../image/print.png>";
+        $("#tblFlightlist").append("<tr><td>"+myv[i]["fields"]["company"]+"</td><td>"+myv[i]["fields"]["flightNum"]+"</td><td>"+img1+"</td></tr>").css("cursor","hand");
+
+            // alert(myv[1]["fields"]["company"]);
+          }
+       });
+     },5000);
+    // $(document).ready(function(){
+    //   alert("hiiii");
+    //   $("#tblFlightlist").append("<tr><td>hi</td><td>hello</td><td>khobi</td><td>hi</td><td>hello</td><td>khobi</td></tr>").css("cursor","hand")
+    //   .on('click',function(){alert("cliii");});
+    //   $.ajax({});
+    // });
+    // sending print instrunction
+    setInterval(function(){
+     $.ajax({
+       type:"GET",
+       url:"{% url 'app1:printing'%}",
+       success:function(data){
+         // alert(data.status+" : "+data.flt);
+       }
+     });
+    },5000);
      $( function() {
        $( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
        $( "#datepicker1" ).datepicker({dateFormat: 'yy-mm-dd'});
 
-     } );
+     });
      </script>
 
      <!-- modal -->
@@ -199,12 +234,20 @@
         $(this).modalForm({formURL: $(this).data('id')});
               });
            });
-
-
 </script>
      <!-- modal -->
 
 <script type="text/javascript">
+serInterval(function(){
+  $.ajax({
+    method:"GET",
+    url:"{% url 'app1:flightlist'%}",
+    success:function(data){
+      alert("goodddd");
+    }
+
+  });
+},5000);
 $(document).delegate(".msge","click",function(){
   console.log("messs");
 });
@@ -219,7 +262,6 @@ $(document).delegate(".msge","click",function(){
       $(this).find('.modal-footer #confirm').data('form', form);
   });
 
-  <!-- Form confirm (yes/ok) handler, submits form -->
   $('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
       $(this).data('form').submit();
   });

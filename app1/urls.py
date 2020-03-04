@@ -8,9 +8,9 @@ app_name='app1'
 
 
 urlpatterns=[
+
           path('login/', views.login,name='default_login'),
           path('PrintPage/<int:id>/', views.PrintPage,name='PrintPage'),
-
           path('login/<msg>/', views.login,name='login'),
           path('mail/', views.mail,name='mail'),
           url(r'^register/', views.Register,name='register'),
@@ -25,7 +25,14 @@ urlpatterns=[
           path('getflightlist/',views.getflightlist,name='getflightlist'),
           path('delFlight/<int:pk>', views.delFlight.as_view(), name='delFlight'),
           url(r'^addFlightFromView/',addFlightFromView.as_view()),
-          url(r'^ajax/validate_company/$', views.validate_company, name='validate_company'),
+          url(r'^ajax/checkCallSigh/$', views.checkCallSigh, name='checkCallSigh'),
           url(r'^ajax/validate_username/$', views.validate_username, name='validate_username'),
+          path('setting/', views.setting, name='setting'),
+          path('aj_IDlist', views.aj_IDlist, name='aj_IDlist'),
+          path('Flightinfoajax/',views.Flightinfoajax,name='Flightinfoajax'),
+          path('autoUpdateflightlist/',views.autoUpdateflightlist,name='autoUpdateflightlist'),
+          path('priniting/',views.printing,name='printing'),
+
+
 
 ]

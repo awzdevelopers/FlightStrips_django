@@ -198,7 +198,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL='/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'app1','media')
 
 
 # this the core of django not allauth باید وارد ادمین شده باشید که بتونید از برنامه استفاده کنید

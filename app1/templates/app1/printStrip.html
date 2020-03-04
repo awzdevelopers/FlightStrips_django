@@ -71,6 +71,9 @@
             <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="">Setting</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
           </li>
         </ul>
@@ -85,6 +88,8 @@
         <p>قابلیت چاپ استریپ در مدت زمان مشخص توسط کاربر و ....</p>
       </div>
     </div>
+    <form class="form" method="post">
+
 
     <!-- strips -->
     <table class="table table-hover">
@@ -111,7 +116,11 @@
               <div class="strip-box" id="test1">
                 <div class="space1">{{f.DesAirport}}
 {{f.type}}
-{{6350}}
+{% if f.squack %}
+{{ f.squack }}
+{% else%}
+{{"----"}}
+{% endif %}
                 </div>
                 <div class="vl1"></div>
                 <div class="space2">{{f.company}}{{f.flightNum}}</div>
@@ -157,7 +166,8 @@
       {% endfor %}
 
     </table>
-
+<input type="button" class="btn btn-danger" value="print" name="btnPrint1">
+</form>
 
 <script type="text/javascript">
 
