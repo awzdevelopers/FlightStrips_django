@@ -1,10 +1,10 @@
 html{
-  background-color: #FFF;
+  background-color: #56baed;
 }
 body {
   margin: 0;
   padding: 0;
-  background-color: #FFF;
+  background-color: #56baed;
 }
 .msg{
   width: 100px;
@@ -95,8 +95,8 @@ body {
 
 
 .file-upload {
-  background-color: #ffffff;
-  width: 600px;
+  background-color: #56baed;
+  width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -105,7 +105,7 @@ body {
   width: 100%;
   margin: 0;
   color: #fff;
-  background: #1FB264;
+  background: #003771;
   border: none;
   padding: 10px;
   border-radius: 4px;

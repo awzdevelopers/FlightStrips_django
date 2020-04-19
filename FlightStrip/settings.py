@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'localauthuser',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,18 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'bootstrapform',
     'bootstrap_datepicker_plus',
-    'oauth2_provider',
-    'corsheaders',
     'bootstrap_modal_forms',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'app1',
 ]
 SITE_ID=1
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -202,5 +194,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'app1','media')
 
 
 # this the core of django not allauth باید وارد ادمین شده باشید که بتونید از برنامه استفاده کنید
-LOGIN_URL='/account/login'
-AUTH_USER_MODEL='localauthuser.authuser'
+# LOGIN_URL='/account/login'
+# AUTH_USER_MODEL='localauthuser.authuser'

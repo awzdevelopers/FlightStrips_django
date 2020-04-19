@@ -24,16 +24,16 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('', views.login),
     url(r'^app1/',include('app1.urls')),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^account/',include('allauth.urls')),
+
+
 
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
-
-
+# url(r'^account/',include('allauth.urls')),
  #
  # path("signup/", views.signup, name="account_signup"),
  #    path("login/", views.login, name="account_login"),
