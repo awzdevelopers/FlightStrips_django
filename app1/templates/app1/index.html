@@ -11,9 +11,6 @@
   <head>
     <link rel="stylesheet" href="{% static 'css/Style.css' %}">
     <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
-    <!-- code Removed -->
-    <!-- <link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\Style.css"> -->
-    <!-- <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script> -->
     <meta charset="utf-8">
     <title>AWZ_-_Developer's</title>
   </head>
@@ -25,17 +22,18 @@
           <h4>لطفا صبر کنید ...</h4>
       </div>
     </div> -->
+
+<!-- old work -->
     <div class="wrapper fadeInDown">
       <div id="formContent">
         <!-- Tabs Titles -->
         <h2 class="active"> <a href="{% url 'app1:login' 'd' %}">Sign In</a> </h2>
         <h2 class="inactive underlineHover"><a href="{% url 'app1:register' %}">Sign Up</a> </h2>
         <p>{{ message }}</p>
-        <br>
         <h2>Flight Striping System</h2>
         <!-- Icon -->
         <div class="fadeIn first">
-          <img src="{% static 'image/contact.svg' %}" id="icon" alt="User Icon" />
+          <img src="{% static 'image/contact.png' %}" id="icon" alt="User Icon" />
         </div>
         <!-- Login Form -->
         <form method="POST">

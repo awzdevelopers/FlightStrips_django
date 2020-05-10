@@ -4,29 +4,39 @@
 <!--{% load static %}-->
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="{% static 'css/Style2.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/jquerylast.min.js' %}" type="text/javascript" language="javascript"></script>
-    <!-- code Removed -->
-    <!--<link rel="stylesheet" href="E:\B\Github\new-strip\FlightStrips_django\app1\static\css\Style2.css">-->
-    <!--<link rel="stylesheet" href="E:\B\Github\Flight-stript\app1\static\css\bootstrap.min.css">
-    <script src="E:\B\Github\Flight-stript\app1\static\js\jquerylast.min.js" type="text/javascript" language="javascript"></script>-->
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/Style2.css' %}">
     <meta charset="utf-8">
     <title>AWZ_-_Developer's</title>
+
+    <style>
+      .file-upload {
+        width: 100%;
+      }
+      .image-upload-wrap {
+        border: 4px dashed #003771;
+      }
+      .image-upload-wrap:hover {
+        background-color: #026bd9;
+        border: 4px dashed #ffffff;
+        color: #fff;
+      }
+      .drag-text h3 {
+        text-align: center;
+        color: #FFFfff;
+      }
+    </style>
   </head>
-  <body>
+  <body style="background-color:#56baed">
     <div class="header-up">
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a class="navbar-brand" href="#">||AWZ_Developer's||</a>
@@ -108,52 +118,54 @@
 
     <!--main page start here-->
 <!-- upload script -->
-<form  method="post" enctype="multipart/form-data">
-    <div class="file-upload">
-      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Your File</button>
-      <div class="image-upload-wrap">
-        <input class="file-upload-input" name="excelfile" type='file' onchange="readURL(this);" accept="application/msexcel"/>
-        <div class="drag-text">
-          <h3>Drag and drop a file or select add your file</h3>
+<div class="container">
+    <form  method="post" enctype="multipart/form-data">
+      <div class="file-upload" style="background-color:#56baed;">
+        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Your File</button>
+        <div class="image-upload-wrap">
+          <input class="file-upload-input" name="excelfile" type='file' onchange="readURL(this);" accept="application/msexcel"/>
+          <div class="drag-text">
+            <h3>Drag and drop a file or select add your file</h3>
+          </div>
         </div>
-      </div>
-      <div class="file-upload-content">
-        <!--<img class="file-upload-image" src="#" alt="your image" />-->
-        <div class="image-title-wrap">
-          <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+        <div class="file-upload-content">
+          <!--<img class="file-upload-image" src="#" alt="your image" />-->
+          <div class="image-title-wrap">
+            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+          </div>
         </div>
-      </div>
-      {% csrf_token %}
+        {% csrf_token %}
 
-      <button type="submit" class="btn btn-primary mb-2" name="btn4">Show & Save</button>
-    </div>
-    <!-- <button type="submit" class="btn btn-warning mb-2" name="btn5">Save in DataBase</button> -->
-  </form>
-<table class="table">
-  <tr>
-  <th>Company</th>
-  <th>Flight Number</th>
-  <th>EOBT</th>
-  <th>Level</th>
-  <th>Des. Airport</th>
-  <th>Route</th>
-  <th>Date</th>
-</tr>
-  {% for i in excel_data %}
-  <tr>
-  {% for j in i %}
-<td>
-  {{ j }}
-</td>
-  {% endfor %}
-  <td><a href="#"><img src="{% static 'image/delete.png' %}" alt=""></a></td>
-  <td><a href="#"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
-  <td><a href="#"><img src="{% static 'image/print.png' %}" alt=""></a></td>
-  <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
-  <td><input type="checkbox" name="ch1" value='{ f.id }'>{{ fi.d }}</td>
-</tr>
-  {% endfor %}
-</table>
+        <button type="submit" class="btn btn-primary mb-2" name="btn4">Show & Save</button>
+      </div>
+      <!-- <button type="submit" class="btn btn-warning mb-2" name="btn5">Save in DataBase</button> -->
+    </form>
+  <table class="table">
+    <tr>
+    <th>Company</th>
+    <th>Flight Number</th>
+    <th>EOBT</th>
+    <th>Level</th>
+    <th>Des. Airport</th>
+    <th>Route</th>
+    <th>Date</th>
+  </tr>
+    {% for i in excel_data %}
+    <tr>
+    {% for j in i %}
+  <td>
+    {{ j }}
+  </td>
+    {% endfor %}
+    <td><a href="#"><img src="{% static 'image/delete.png' %}" alt=""></a></td>
+    <td><a href="#"><img src="{% static 'image/edit.png' %}" alt=""></a></td>
+    <td><a href="#"><img src="{% static 'image/print.png' %}" alt=""></a></td>
+    <td><a href="#"><img src="{% static 'image/message.png' %}" alt=""></a></td>
+    <td><input type="checkbox" name="ch1" value='{ f.id }'>{{ fi.d }}</td>
+  </tr>
+    {% endfor %}
+  </table>
+</div>
 <!-- upload script for drag and drop -->
 <script>
   function readURL(input) {

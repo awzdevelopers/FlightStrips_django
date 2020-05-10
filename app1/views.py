@@ -26,7 +26,11 @@ import rx
 import time
 from django.core import serializers
 import threading
+<<<<<<< HEAD
 from app1.functions import createSquack,sendpass,stripImage,printStripFunction,checktekarariUser,checktekarariEmail,checkmailexist
+=======
+from app1.functions import createSquack,sendpass,stripImage,printStripFunction,checktekarariUser,checktekarariEmail
+>>>>>>> e570055d85d5d2da6b4e73db809294b9fdf52320
 
 #saving actions
 def Flightinfoajax(request):

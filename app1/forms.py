@@ -25,6 +25,11 @@ class RegisterForm(forms.ModelForm):
         model=user
         fields=['name','family','username','password','email','phone','job']
 
+        widgets = {
+            'job':forms.TextInput(attrs={'class':'fadeIn second','type':'text','id':'login','placeholder':'job'}),
+            'job':forms.TextInput(attrs={'class':'hidden','type':'text','id':'login','placeholder':'job'}),
+            }
+
 class PassForm(forms.ModelForm):
     class Meta:
         model=user
