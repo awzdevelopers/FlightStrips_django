@@ -80,7 +80,7 @@
 
 <div class="container">
   <div class="sett" style="padding:100px;">
-    <form class="form-group">
+    <form class="form-group" method="post">
       <label for="">select yor printing schedule time</label>
       <select class="form-control">
         <option value="">5"</option>
@@ -89,8 +89,11 @@
         <option value="">30"</option>
         <option value="">1'</option>
       </select><br>
-      <input type="submit" name="" value="OK" class="btn btn-info">
-      <input type="submit" name="" value="Cancel" class="btn btn-danger">
+      {% csrf_token %}
+
+      {{frm.as_p}}
+      <input type="submit" name="sub" value="OK" class="btn btn-info">
+      <input type="submit"  value="Cancel" class="btn btn-danger">
 
     </form>
   </div>

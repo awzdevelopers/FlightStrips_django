@@ -75,3 +75,6 @@ class typeList(models.Model):
         return self.type
 class BackupData(models.Model):
     pass
+class printingSetting(models.Model):
+    minutesDiff=models.FloatField(max_length=5,null=True)
+    printername=models.CharField(max_length=20,null=True)

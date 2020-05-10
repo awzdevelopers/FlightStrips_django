@@ -1,5 +1,5 @@
 from django import forms
-from app1.models import user,flight,companyList,typeList,DaysOfweek
+from app1.models import user,flight,companyList,typeList,DaysOfweek,printingSetting
 from datetimepicker.widgets import DateTimePicker
 from bootstrap_datepicker_plus import DatePickerInput,TimePickerInput
 from bootstrap_modal_forms.forms import BSModalForm
@@ -90,3 +90,7 @@ class delForm(BSModalForm):
     class Meta:
         model=flight
         fields=['company']
+class settinprintForm(forms.ModelForm):
+    class Meta:
+        model=printingSetting
+        fields='__all__'
