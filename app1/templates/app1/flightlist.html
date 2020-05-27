@@ -66,7 +66,7 @@
             <a class="nav-link" href="{% url 'app1:printStrip' %}">Print Strip</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Setting</a>
+            <a class="nav-link" href="{% url 'app1:setting'%}">Setting</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'app1:login' 'default' %}">Quit</a>
@@ -97,12 +97,13 @@
             <option>3</option>
             <option>4</option>
           </select>
-          <div class="checkbox">
-            <label><input type="checkbox">check</label>
-          </div>
+
           <button type="submit" class="btn btn-info" name="srchBtn">search</button>
         </form>
-
+        <div class="checkbox">
+          <label><input type="checkbox" id="autoprint">Auto-Print?</label>
+        </div>
+        <br>
       </div>
     </div>
 
@@ -114,6 +115,8 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
         <!-- list start here -->
       <div class="container">
         <div>
@@ -129,7 +132,7 @@
             <th>Route</th>
             <th>Register</th>
               {% for f in flights %}
-            <tr class="flight-list-hover">
+            <tr class="flight-list-hover" id="tb1">
               <td>{{ f.company }} {{ f.flightNum }}</td>
               <td>{{ f.type }}</td>
               <td>{{ f.DepAirport }}</td>
@@ -145,8 +148,6 @@
               <td><a href="{% url 'app1:printStrip'%}"><img src="{% static 'image/print.png' %}" alt=""></a></td>
               <td><a href="#" class="msge"><img  src="{% static 'image/message.png' %}" alt=""></a></td>
               <td> <input type="checkbox" name="checked" value="{{f.id}}">انتخاب </td>
-
-
               <div class="modal fade" id="confirmDelete" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
               <div class="modal-dialog">
               <div class="modal-content">
@@ -187,8 +188,16 @@
             }).done(function(data){
         var myv=JSON.parse(data);
         for(i=0;i<myv.length;i++){
-        var img1="<img src=../image/print.png>";
-        $("#tblFlightlist").append("<tr><td>"+myv[i]["fields"]["company"]+"</td><td>"+myv[i]["fields"]["flightNum"]+"</td><td>"+img1+"</td></tr>").css("cursor","hand");
+        var columNames="<th>CallSign</th><th>Type</th><th>Departure</th><th>Destination</th><th>EOBT</th><th>Date</th><th>Route</th><th>Register</th>";
+        var Printimg="<img src=../image/print.png>";
+        var tdcompany="<td>"+myv[i]["fields"]["company"]+"</td>";
+        var tdfilightNum="<td>"+myv[i]["fields"]["flightNum"]+"</td>";
+        var tdtype="<td>"+myv[i]["fields"]["type"]+"</td>";
+        var tdEOBT="<td>"+myv[i]["fields"]["EOBT"]+"</td>";
+        var tddateFrom="<td>"+myv[i]["fields"]["dateFrom"]+"</td>";
+        var tdDesAirport="<td>"+myv[i]["fields"]["DesAirport"]+"</td>";
+
+        $("#tblFlightlist").append("<tr>"+tdcompany+tdfilightNum+tdtype+tdEOBT+tddateFrom+tdDesAirport+Printimg+"</tr>").css("cursor","hand");
 
             // alert(myv[1]["fields"]["company"]);
           }
@@ -201,7 +210,10 @@
     //   $.ajax({});
     // });
     // sending print instrunction
+
     setInterval(function(){
+      if($("#autoprint").is(':checked'))
+      {
      $.ajax({
        type:"GET",
        url:"{% url 'app1:printing'%}",
@@ -209,6 +221,7 @@
          // alert(data.status+" : "+data.flt);
        }
      });
+   }
     },5000);
      $( function() {
        $( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});

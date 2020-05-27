@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from app1.forms import loginForm,RegisterForm,PassForm,flightInfoForm,CompanyForm,TypeForm,delForm
-from app1.models import user,typeList,companyList,flight,loggingTable
+from app1.forms import loginForm,RegisterForm,PassForm,flightInfoForm,CompanyForm,TypeForm,delForm,settinprintForm
+from app1.models import user,typeList,companyList,flight,loggingTable,printingSetting
 from django.shortcuts import redirect
 from django.core.mail import send_mail
 import random
@@ -26,7 +26,11 @@ import rx
 import time
 from django.core import serializers
 import threading
+<<<<<<< HEAD
+from app1.functions import createSquack,sendpass,stripImage,printStripFunction,checktekarariUser,checktekarariEmail,checkmailexist
+=======
 from app1.functions import createSquack,sendpass,stripImage,printStripFunction,checktekarariUser,checktekarariEmail
+>>>>>>> e570055d85d5d2da6b4e73db809294b9fdf52320
 
 #saving actions
 def Flightinfoajax(request):
@@ -38,7 +42,15 @@ def aj_IDlist(request):
     return JsonResponse(data, safe=False)
 
 def setting(request):
-    return render(request,'app1/setting.html')
+    frm=settinprintForm
+    ss=printingSetting.objects.get(id=1)
+    if request.method=='POST' and 'sub' in request.POST:
+        frm=settinprintForm(request.POST)
+        if frm.is_valid():
+            ss.minutesDiff=request.POST['minutesDiff']
+            ss.printername=request.POST['printername']
+            ss.save()
+    return render(request,'app1/setting.html',{'frm':frm})
 
 def save_flight(sender,instance,**kwargs):
     lg=loggingTable(actionName="saved flight record",dateAndTime=datetime.datetime.now())
@@ -207,7 +219,6 @@ def validate_username(request):
 
 def validate_company(request):
     flightNum = request.GET.get('flightNum', None)
-
     dat = {
         'flightnum_is_taken': flight.objects.filter(flightNum__iexact=flightNum).exists(),}
     return JsonResponse(dat)
@@ -311,7 +322,6 @@ def checkCallSigh(request):
     return JsonResponse(isExist)
 
 def Register(request):
-
     frm2 = RegisterForm
     frm1=loginForm
     err=""
@@ -324,21 +334,19 @@ def Register(request):
             t2=checktekarariEmail(frm2.cleaned_data['email'])
             if t1==0:
                 if t2==0:
-
                     frm2.save(commit=True)
                     err="با موفقیت ثبت نام کردید"
                     # return render(request,'app1/index.html',{'message':err,'frm':frm1})
                     return redirect('app1:login',msg=err)
-
                 else:
                     err="ایمیل تکراری است"
-                    return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2})
+                    return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2,'disableBtn':True})
             else:
                 err="نام کاربری تکراری است"
-                return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2})
+                return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2,'disableBtn':True})
         else:
             err="خطا دوباره امتحان کنید"
-            return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2})
+            return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2,'disableBtn':True})
 
     return render(request,'app1/SignUp.html',{'errmessage':err,'frmreg':frm2})
 
@@ -367,15 +375,23 @@ def main(request):
     tp=typeList.objects.all()
     return render(request,'app1/main.html',{'frmc':frmc,'frmt':frmt,'msg':msg,'cy':cy,'tp':tp})
 def printing(request):
+    # loading printing setting
+    qq=printingSetting.objects.all()[0]
+    print("the time diff in minutes:  "+str(qq.minutesDiff))
+    diffInMinutes=qq.minutesDiff
+    #
     dateNow=(datetime.datetime.now()).strftime("%Y")+"-"+(datetime.datetime.now()).strftime("%m")+"-"+(datetime.datetime.now()).strftime("%d")
     timeNow=(datetime.datetime.now()).strftime("%H:%M:%S")
-    # timeNow=datetime.datetime.strptime(timeNow,"%H:%M")
+    dateToday=datetime.datetime.today()
+    # timeNow=datetime.time.strftime(timeNow,"%H:%M:%S")
     # newTime=timeNow+timedelta(hours=3)
     # +":"+(datetime.datetime.now()).strftime("%M")+":00"
-    print("date now is: "+str(dateNow))
+    print("date and time now is: "+str(dateNow)+" "+str(timeNow))
     print("time now is: "+str(timeNow))
-    print(type(timeNow))
-    print(type(dateNow))
+    dt=str(dateNow)+" "+str(timeNow)
+    dtobj=datetime.datetime.strptime(dt,"%Y-%m-%d %H:%M:%S")
+    print(type(dtobj.time()))
+    # print(type(dateNow))
 
 
     # n=datetime.datetime.(datetime.date.today(),timeNow.time())
@@ -388,13 +404,26 @@ def printing(request):
         pass
     else:
         for i in q:
-            # if i.EOBT>timeNow.time():
-            p=datetime.datetime.combine(datetime.date.today(),i.EOBT)
-            print("greater.....")
-            print("EOBT: "+str(i.EOBT))
-            print("timeNow: "+str(timeNow))
+            datetimeOfflight=datetime.datetime.combine(dateToday,i.EOBT)
+            datetimeNow=datetime.datetime.combine(dateToday,dtobj.time())
 
-            print("diffrent is odf EOBT : "+str(((i.EOBT)-(timeNow))))
+            # datetimeNow=datetimeNow.replace(hour=00,minute=0,second=0)
+            diffMinutes=(((datetimeOfflight-datetimeNow).total_seconds())/60)
+            print("the diffrence in minutes   "+str((diffMinutes)))
+            if diffMinutes<=diffInMinutes:
+                print("the plan is prnting")
+                stripImage(i)
+                printStripFunction(i.id)
+
+
+
+                # print("greater.....")
+                # print("...EOBT:.... "+str(p1))
+                # print("....timeNow:.... "+str(p2))
+                # print("....Diff:.... "+str(p2-p1))
+
+
+            # print("diffrent is odf EOBT : "+str(((i.EOBT)-(timeNow))))
 
         data={'status':True}
     return JsonResponse(data)

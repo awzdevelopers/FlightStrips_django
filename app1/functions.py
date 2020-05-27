@@ -146,8 +146,6 @@ def stripImage(fltData):
 
 # printer  process
 def printStripFunction(id):
-
-
     flt=flight.objects.get(id=id)
     try:
         # https://stackoverflow.com/questions/53765699/python-win32print-job-status
@@ -167,9 +165,12 @@ def printStripFunction(id):
         bmp=Image.open(image_name)
         if bmp.size[0]>bmp.size[1]:
             print("horizental strip width > hieght")
+            # bmp=bmp.rotate(90)
+
         else:
             print("vertical strip width < hieght")
             bmp=bmp.rotate(90)
+
 
         print("size 0 is: "+str(bmp.size[0]))
         print("size 1 is: "+str(bmp.size[1]))
@@ -178,9 +179,12 @@ def printStripFunction(id):
         hdc.StartPage()
 
         dib=ImageWin.Dib(bmp)
-        dib.draw(hdc.GetHandleOutput(),(0,0,printer_size[1],printer_size[0]-6000))
+        print("printer size 0 :....>"+str(printer_size[0]+764))
+        print("printer size 1 :....>"+str(printer_size[1]+95))
 
-
+        dib.draw(hdc.GetHandleOutput(),(0,0,printer_size[0],printer_size[1]))
+        print("get handeled output..."+str(hdc.GetHandleOutput()))
+        print("ending page.....")
         hdc.EndPage()
         hdc.EndDoc()
         hdc.DeleteDC()

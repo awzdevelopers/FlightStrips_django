@@ -90,30 +90,15 @@
         <tr class="flight-list-hover" id="{{ i.id }}">
       <td></td>
       <td>
-        <!-- <div class="strip" >
-          <div class="des" onclick="javascript:clicked('{{ i.DesAirport }}')">
-            {{ i.DesAirport }}
-          </div>
-          <div class="type">
-          </div>
-
-          <div class="callsing">
-            {{i.company}} {{i.flightNum}}
-          </div> -->
-<!-- latest strip style is here -->
-
-<!-- end of the latest style -->
-              <!-- strip style is here -->
-
-
-              <div class="strip-box" id="test1">
-                <div class="space1">{{f.DesAirport}}
-{{f.type}}
-{% if f.squack %}
-{{ f.squack }}
-{% else%}
-{{"----"}}
-{% endif %}
+      <div class="strip-box" id="test1">
+      <div class="space1">
+        {{f.DesAirport}}
+       {{f.type}}
+       {% if f.squack %}
+       {{ f.squack }}
+       {% else%}
+       {{"----"}}
+      {% endif %}
                 </div>
                 <div class="vl1"></div>
                 <div class="space2">{{f.company}}{{f.flightNum}}</div>
